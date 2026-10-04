@@ -42,6 +42,7 @@ function navLinks(active) {
     ['/performances/', 'Спектакли', 'performances'],
     ['/pedagogy/', 'Педагогика', 'pedagogy'],
     ['/inscenizations/', 'Инсценировки', 'inscenizations'],
+    ['/news/', 'Новости', 'news'],
     ['/#contacts', 'Контакты', 'contacts']
   ];
   return links
@@ -99,7 +100,7 @@ export function footer(enPath) {
     '<div class="container">' +
     '<div class="footer__grid">' +
     '<div class="footer__col"><div class="footer__col-title">Павел Пронин</div><div class="footer__links">' +
-    '<a href="' + withBase('/#about') + '">Обо мне</a><a href="' + withBase('/performances/') + '">Спектакли</a><a href="' + withBase('/pedagogy/') + '">Педагогика</a><a href="' + withBase('/inscenizations/') + '">Инсценировки</a>' +
+    '<a href="' + withBase('/#about') + '">Обо мне</a><a href="' + withBase('/performances/') + '">Спектакли</a><a href="' + withBase('/pedagogy/') + '">Педагогика</a><a href="' + withBase('/inscenizations/') + '">Инсценировки</a><a href="' + withBase('/news/') + '">Новости</a><a href="' + withBase('/#contacts') + '">Контакты</a>' +
     '</div></div>' +
     '<div class="footer__col"><div class="footer__col-title">Контакты</div><div class="footer__links">' +
     '<span>pavel.pronin1986@gmail.com</span>' +

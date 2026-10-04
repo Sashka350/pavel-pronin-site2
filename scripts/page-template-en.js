@@ -45,6 +45,7 @@ function navLinks(active) {
     ['en/performances/', 'Performances', 'performances'],
     ['en/pedagogy/', 'Pedagogy', 'pedagogy'],
     ['en/inscenizations/', 'Stagings', 'inscenizations'],
+    ['en/news/', 'News', 'news'],
     ['en/#contacts', 'Contacts', 'contacts']
   ];
   return links
@@ -61,6 +62,7 @@ function mobileNavLinks(active) {
     ['en/performances/', 'Performances', 'performances'],
     ['en/pedagogy/', 'Pedagogy', 'pedagogy'],
     ['en/inscenizations/', 'Stagings', 'inscenizations'],
+    ['en/news/', 'News', 'news'],
     ['en/#contacts', 'Contacts', 'contacts']
   ];
   return links
@@ -115,7 +117,7 @@ export function footer() {
     '<div class="container">' +
     '<div class="footer__grid">' +
     '<div class="footer__col"><div class="footer__col-title">Pavel Pronin</div><div class="footer__links">' +
-    '<a href="' + withEn('/#about') + '">About</a><a href="' + withEn('/performances/') + '">Performances</a><a href="' + withEn('/pedagogy/') + '">Pedagogy</a><a href="' + withEn('/inscenizations/') + '">Stagings</a>' +
+    '<a href="' + withEn('/#about') + '">About</a><a href="' + withEn('/performances/') + '">Performances</a><a href="' + withEn('/pedagogy/') + '">Pedagogy</a><a href="' + withEn('/inscenizations/') + '">Stagings</a><a href="' + withEn('/news/') + '">News</a><a href="' + withEn('/#contacts') + '">Contacts</a>' +
     '</div></div>' +
     '<div class="footer__col"><div class="footer__col-title">Contacts</div><div class="footer__links">' +
     '<span>pavel.pronin1986@gmail.com</span>' +
