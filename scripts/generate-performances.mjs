@@ -200,18 +200,32 @@ try {
   console.error('Не удалось прочитать педагогические проекты для sitemap:', e.message);
 }
 
+const newsPaths = new Set();
+const newsPathsEn = new Set();
+try {
+  const { posts } = await import('../src/data/news-data.js');
+  posts.forEach(function (n) {
+    if (n.slug) newsPaths.add(SITE + '/news/' + n.slug + '/');
+    if (n.slug) newsPathsEn.add(SITE_EN + '/news/' + n.slug + '/');
+  });
+} catch (e) {
+  console.error('Не удалось прочитать новости для sitemap:', e.message);
+}
+
 const staticPages = [
   '',
   'performances/',
   'pedagogy/',
-  'inscenizations/'
+  'inscenizations/',
+  'news/'
 ];
 
 const staticPagesEn = [
   'en/',
   'en/performances/',
   'en/pedagogy/',
-  'en/inscenizations/'
+  'en/inscenizations/',
+  'en/news/'
 ];
 
 const urls = [];
@@ -238,6 +252,12 @@ pedagogyPaths.forEach(function (loc) {
   urls.push({ loc: loc, lastmod: today, priority: '0.6' });
 });
 pedagogyPathsEn.forEach(function (loc) {
+  urls.push({ loc: loc, lastmod: today, priority: '0.5' });
+});
+newsPaths.forEach(function (loc) {
+  urls.push({ loc: loc, lastmod: today, priority: '0.6' });
+});
+newsPathsEn.forEach(function (loc) {
   urls.push({ loc: loc, lastmod: today, priority: '0.5' });
 });
 

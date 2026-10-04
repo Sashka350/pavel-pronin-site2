@@ -619,6 +619,20 @@ body.nav-open {
   grid-template-columns: 1fr;
 }
 
+/* Лента «Недавнее» под анонсами. */
+.announcements__recent {
+  margin-top: 2.5rem;
+}
+
+/* Первое ближайшее событие — во всю ширину блока. */
+.announcements__grid .event-card--lead {
+  grid-column: 1 / -1;
+}
+
+.announcements__grid .event-card--lead .event-card__title {
+  font-size: var(--text-2xl);
+}
+
 /* --- Контакты --- */
 .contacts__info {
   display: flex;

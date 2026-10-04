@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "postbuild": "node scripts/generate-performances.mjs && node scripts/generate-pedagogy.mjs",
+    "postbuild": "node scripts/generate-performances.mjs && node scripts/generate-pedagogy.mjs && node scripts/generate-news.mjs",
     "preview": "vite preview"
   },
   "devDependencies": {

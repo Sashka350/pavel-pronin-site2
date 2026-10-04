@@ -19,9 +19,11 @@ export default defineConfig({
         enPerformances: fileURLToPath(new URL('./en/performances/index.html', import.meta.url)),
         enPedagogy: fileURLToPath(new URL('./en/pedagogy/index.html', import.meta.url)),
         enInscenizations: fileURLToPath(new URL('./en/inscenizations/index.html', import.meta.url)),
+        enNews: fileURLToPath(new URL('./en/news/index.html', import.meta.url)),
         performances: fileURLToPath(new URL('./performances/index.html', import.meta.url)),
         pedagogy: fileURLToPath(new URL('./pedagogy/index.html', import.meta.url)),
-        inscenizations: fileURLToPath(new URL('./inscenizations/index.html', import.meta.url))
+        inscenizations: fileURLToPath(new URL('./inscenizations/index.html', import.meta.url)),
+        news: fileURLToPath(new URL('./news/index.html', import.meta.url))
       }
     }
   },
