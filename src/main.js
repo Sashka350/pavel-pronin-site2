@@ -16,3 +16,4 @@ import './js/scroll-anim.js';
 import './js/announcements.js';
 import './js/gallery.js';
 import './js/type-cycle.js';
+import './js/insc-reader.js';

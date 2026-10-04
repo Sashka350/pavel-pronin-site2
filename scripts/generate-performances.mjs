@@ -213,12 +213,11 @@ try {
 }
 
 const inscenizationPaths = new Set();
-const inscenizationPathsEn = new Set();
 try {
   const { inscenizations } = await import('../src/data/inscenizations-data.js');
   inscenizations.forEach(function (i) {
+    // EN-страниц инсценировок нет: тексты не переведены (решение 04.10.2026).
     if (i.slug) inscenizationPaths.add(SITE + '/inscenizations/' + i.slug + '/');
-    if (i.slug) inscenizationPathsEn.add(SITE_EN + '/inscenizations/' + i.slug + '/');
   });
 } catch (e) {
   console.error('Не удалось прочитать инсценировки для sitemap:', e.message);
@@ -274,9 +273,6 @@ newsPathsEn.forEach(function (loc) {
 });
 inscenizationPaths.forEach(function (loc) {
   urls.push({ loc: loc, lastmod: today, priority: '0.6' });
-});
-inscenizationPathsEn.forEach(function (loc) {
-  urls.push({ loc: loc, lastmod: today, priority: '0.5' });
 });
 
 const sitemap =

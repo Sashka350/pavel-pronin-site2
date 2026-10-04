@@ -1,6 +1,6 @@
 /**
- * inscenizations.js — рендер списка инсценировок.
- * Ссылка ведёт на страницу отрывка: /inscenizations/<slug>/,
+ * inscenizations.js — рендер списка инсценировок (русская версия).
+ * Ссылка ведёт на страницу чтения: /inscenizations/<slug>/,
  * её собирает scripts/generate-inscenizations.mjs.
  */
 import { inscenizations } from '../data/inscenizations-data.js';

@@ -6,9 +6,10 @@
  *
  * Что делает: берёт `inscenizations-src/<slug>.docx` (файлы, присланные режиссёром)
  * и кладёт текст в `src/data/inscenizations/<slug>.txt`.
- * Формат txt: абзацы разделены пустой строкой, строка сцены начинается с `# `.
- * Дальше `scripts/generate-inscenizations.mjs` собирает из txt страницу — правьте
- * txt руками, если нужно.
+ * Формат txt: абзацы разделены пустой строкой, строка сцены начинается с `# `,
+ * строка списка действующих лиц — с `- `, полужирное — `{b}…{/b}`, курсивное —
+ * `{i}…{/i}`. Дальше `scripts/generate-inscenizations.mjs` собирает из txt
+ * страницу — правьте txt руками, если нужно.
  *
  * Зависимостей нет: docx распаковывается своим чтением zip (node:zlib).
  *
@@ -117,24 +118,82 @@ function decode(s) {
     .replace(/&amp;/g, '&');
 }
 
+/**
+ * Абзацы Word → строки, где полужирное и курсивное помечены.
+ * Разбираем runs (`<w:r>`), а не абзац целиком: иначе имя говорящего и ремарки
+ * теряют начертание, а режиссёр писал их полужирным и курсивом намеренно.
+ * Возвращает те же строки, что и раньше, но с `**…**` и `*…*`.
+ */
 function docxParagraphs(file) {
   const xml = readZipEntry(readFileSync(file), 'word/document.xml').toString('utf8');
   return xml
     .split('</w:p>')
-    .map((p) =>
-      decode(
-        p
-          .replace(/<w:tab[^>]*\/>/g, ' ')
-          // Перенос строки внутри абзаца — это отдельная строка текста,
-          // иначе заголовок сцены склеивается с предыдущим абзацем.
-          .replace(/<w:br[^>]*\/>/g, '\n')
-          .replace(/<w:cr[^>]*\/>/g, '\n')
-          .replace(/<[^>]+>/g, '')
-      )
-    )
-    .flatMap((p) => p.split('\n'))
-    .map((p) => p.replace(/\s+/g, ' ').trim())
+    .map((p) => {
+      const runs = [];
+      const runRe = /<w:r(?:\s[^>]*)?>([\s\S]*?)<\/w:r>/g;
+      let m;
+      while ((m = runRe.exec(p))) {
+        const inner = m[1];
+        const text = decode(
+          inner
+            .replace(/<w:tab[^>]*\/>/g, ' ')
+            // Перенос строки внутри абзаца — это отдельная строка текста,
+            // иначе заголовок сцены склеивается с предыдущим абзацем.
+            .replace(/<w:br[^>]*\/>/g, '\n')
+            .replace(/<w:cr[^>]*\/>/g, '\n')
+            .replace(/<[^>]+>/g, '')
+        );
+        if (!text) continue;
+        runs.push({
+          text,
+          // <w:iCs> — это сложный курсив, обычный курсив он не ловит.
+          bold: /<w:b(?:\s[^>]*)?\/?>/.test(inner),
+          italic: /<w:i(?:\s[^>]*)?\/?>/.test(inner)
+        });
+      }
+      return runs;
+    })
+    .flatMap((runs) => markRuns(runs).split('\n'))
+    .map((line) => line.replace(/[ \t]+/g, ' ').trim())
     .filter(Boolean);
+}
+
+/**
+ * Runs → строка с разметкой: `{b}полужирное{/b}`, `{i}курсивное{/i}`,
+ * оба вместе — `{b}{i}…{/i}{/b}`. Разметку выбрали тегами, а не `**` и `_`,
+ * потому что в оригинале курсив и полужирное вложены друг в друга
+ * (ремарка целиком курсивная, а имя внутри неё — полужирное курсивное),
+ * и звёздочки в таком виде читаются неоднозначно.
+ */
+function markRuns(runs) {
+  const merged = [];
+  runs.forEach(function (r) {
+    const last = merged[merged.length - 1];
+    if (last && last.bold === r.bold && last.italic === r.italic) last.text += r.text;
+    else merged.push({ text: r.text, bold: r.bold, italic: r.italic });
+  });
+  while (merged.length && !merged[0].text.trim()) merged.shift();
+  while (merged.length && !merged[merged.length - 1].text.trim()) merged.pop();
+  return merged
+    .map(function (r) {
+      const t = r.text.replace(/\s+/g, ' ');
+      if (!r.bold && !r.italic) return t;
+      // Пробелы по краям выносим за теги, иначе выделение «съедает» их.
+      const lead = /^\s*/.exec(t)[0];
+      const tail = /\s*$/.exec(t)[0];
+      const core = t.slice(lead.length, t.length - tail.length);
+      if (!core) return t;
+      let out = core;
+      if (r.italic) out = '{i}' + out + '{/i}';
+      if (r.bold) out = '{b}' + out + '{/b}';
+      return lead + out + tail;
+    })
+    .join('');
+}
+
+/** Убрать разметку — для заголовков сцен и строк списка действующих лиц. */
+function stripMarks(s) {
+  return s.replace(/\{\/?[bi]\}/g, '');
 }
 
 function isUpperLine(line) {
@@ -151,22 +210,23 @@ function isSceneHeading(line) {
 function convert(file, slug) {
   const { castAt, castEnd } = LAYOUT[slug];
   const all = docxParagraphs(file);
-  const lines = all.slice(dropHead(slug)).filter((l) => !FOOTER_RE.some((re) => re.test(l)));
+  const lines = all.slice(dropHead(slug)).filter((l) => !FOOTER_RE.some((re) => re.test(stripMarks(l))));
 
   const out = [];
   lines.forEach(function (line, i) {
     if (i === castAt) {
-      out.push('# ' + line.replace(/[:\s]+$/, ''));
+      out.push('# ' + stripMarks(line).replace(/[:\s]+$/, ''));
       return;
     }
-    if (isSceneHeading(line)) {
-      out.push('# ' + line.replace(/[:\s]+$/, ''));
+    if (isSceneHeading(stripMarks(line))) {
+      out.push('# ' + stripMarks(line).replace(/[:\s]+$/, ''));
       return;
     }
     // Строка списка действующих лиц помечается дефисом — иначе при сборке
-    // абзацев их нельзя отличить друг от друга.
+    // абзацев их нельзя отличить друг от друга. В заголовках и списке
+    // разметку снимаем: она там не нужна, а в обычных абзацах — сохраняем.
     const inCast = castAt >= 0 && i > castAt && i < castEnd;
-    out.push((inCast ? '- ' : '') + line);
+    out.push((inCast ? '- ' : '') + (inCast ? stripMarks(line) : line));
   });
 
   return out.join('\n\n') + '\n';
