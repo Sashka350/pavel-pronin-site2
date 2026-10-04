@@ -4,6 +4,7 @@
  * которые генерируются scripts/generate-pedagogy.mjs при сборке.
  */
 import { pedagogyProjects } from '../data/pedagogy-data.js';
+import { pedagogySpecs } from './pedagogy-specs.js';
 
 const BASE = import.meta.env.BASE_URL;
 
@@ -25,6 +26,7 @@ const BASE = import.meta.env.BASE_URL;
         '<div class="perf-card__body">' +
         '<h3 class="perf-card__title">' + p.title + '</h3>' +
         '<div class="perf-card__theater">' + [p.place, p.period].filter(Boolean).join(', ') + '</div>' +
+        pedagogySpecs(p, 'ru') +
         (p.note ? '<div class="perf-card__meta"><span>' + p.note + '</span></div>' : '') +
         '</div>' +
         '</a>'

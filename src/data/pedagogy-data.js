@@ -7,6 +7,13 @@
  *   place  — город
  *   image  — фото
  *   note   — краткое примечание
+ *   role   — кем был в проекте (подпись «Кем был», см. ТЗ п. 3.7)
+ *   taught — чему учил (подпись «Чему учил»)
+ *
+ * role и taught добавлены по ТЗ п. 3.7. Пустая строка = строка не выводится
+ * ни в карточке, ни в «Сведениях» страницы проекта. Значения ждут от
+ * режиссёра — вписать сюда, вписать перевод в src/data/pedagogy-en.js,
+ * затем npm run build.
  */
 export const pedagogyProjects = [
   {
@@ -15,7 +22,9 @@ export const pedagogyProjects = [
     period: '2026',
     place: '',
     image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/7fd06260-c2c6-4239-a7e2-cce4a633ecf9/IMG_7855.JPEG',
-    note: ''
+    note: '',
+    role: '',
+    taught: ''
   },
   {
     slug: 'vasiliev-school',
@@ -23,7 +32,9 @@ export const pedagogyProjects = [
     period: '2025 — н.вр.',
     place: '',
     image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/9fd54113-96d1-4db3-8d7c-f1d26425f0de/IMG_8666.JPEG',
-    note: ''
+    note: '',
+    role: '',
+    taught: ''
   },
   {
     slug: 'gitis-2024',
@@ -31,7 +42,9 @@ export const pedagogyProjects = [
     period: '2024 — н.вр.',
     place: 'Москва',
     image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1729334658853-71RQAQ3ER941Z7B3OY2E/fd858318-b1b0-46a8-b145-5efd420d2f34.jpg',
-    note: ''
+    note: '',
+    role: '',
+    taught: ''
   },
   {
     slug: 'egti',
@@ -39,7 +52,9 @@ export const pedagogyProjects = [
     period: '2020 — 2023',
     place: 'Екатеринбург',
     image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1729334437531-STLBTWX3V5B20SL9UPIR/ekaterinburg-gos-teatr-inst.jpg',
-    note: ''
+    note: '',
+    role: '',
+    taught: ''
   },
   {
     slug: 'easi',
@@ -47,7 +62,9 @@ export const pedagogyProjects = [
     period: '2020 — 2021',
     place: 'Екатеринбург',
     image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1629197516422-R0KN1IL7CFYJTY7EHDGE/IMG_8475.JPEG',
-    note: ''
+    note: '',
+    role: '',
+    taught: ''
   },
   {
     slug: 'gitis-2016',
@@ -55,7 +72,9 @@ export const pedagogyProjects = [
     period: '2016 — 2018',
     place: 'Москва',
     image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1629195649959-ASY9N3WN0PE1OYZRMHN2/IMG_0175.JPG',
-    note: ''
+    note: '',
+    role: '',
+    taught: ''
   },
   {
     slug: 'aitaiata',
@@ -63,7 +82,9 @@ export const pedagogyProjects = [
     period: '2016',
     place: 'Таллин, Эстония',
     image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1629194240220-IP1Z8HL2UWQC76DEFLU3/IMG_8060.jpg',
-    note: ''
+    note: '',
+    role: '',
+    taught: ''
   },
   {
     slug: 'fan-and-sword',
@@ -71,7 +92,9 @@ export const pedagogyProjects = [
     period: '2015',
     place: 'Маарду, Эстония',
     image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1629193596029-U6FH62ZM6Y8FFFZY24X1/ALX_6366BWweb.jpg',
-    note: ''
+    note: '',
+    role: '',
+    taught: ''
   },
   {
     slug: 'respect',
@@ -79,7 +102,9 @@ export const pedagogyProjects = [
     period: 'август 2012',
     place: 'Карабаш',
     image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1629192590085-7DVYQEM1XA5BLG6MO9EE/IMG_9723.jpg',
-    note: ''
+    note: '',
+    role: '',
+    taught: ''
   },
   {
     slug: 'kazus',
@@ -87,6 +112,8 @@ export const pedagogyProjects = [
     period: '2012 — 2014',
     place: '',
     image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1629192457538-4DNAU26T3GT1S9UKAOXE/DSC00107.JPG',
-    note: ''
+    note: '',
+    role: '',
+    taught: ''
   }
 ];

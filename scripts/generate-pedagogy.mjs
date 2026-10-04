@@ -25,6 +25,8 @@ function page(p, lang) {
   const title = isEn ? (en.title || p.title) : p.title;
   const period = isEn ? (en.period != null ? en.period : p.period) : p.period;
   const place = isEn ? (en.place != null ? en.place : p.place) : p.place;
+  const role = isEn ? (en.role || p.role) : p.role;
+  const taught = isEn ? (en.taught || p.taught) : p.taught;
   const url = (isEn ? '/en' : '') + '/pedagogy/' + p.slug + '/';
   const imgSrc = p.image || 'https://placehold.co/800x1067/141414/ffffff?text=' + encodeURIComponent(title);
 
@@ -36,6 +38,8 @@ function page(p, lang) {
   let periodLabel = 'Период';
   let cityLabel = 'Город';
   let metaCrumb = 'Педагогика';
+  let roleLabel = 'Кем был';
+  let taughtLabel = 'Чему учил';
   if (isEn) {
     descPh = 'A description of the project will appear once the director provides the materials.';
     backLabel = 'All projects';
@@ -45,12 +49,16 @@ function page(p, lang) {
     periodLabel = 'Period';
     cityLabel = 'City';
     metaCrumb = 'Pedagogy';
+    roleLabel = 'Role';
+    taughtLabel = 'Taught';
   }
   const description = p.description ? p.description : descPh;
 
   const meta = [];
   if (period) meta.push('<div class="perf-spec"><span class="perf-spec__label">' + periodLabel + '</span><span class="perf-spec__value">' + esc(period) + '</span></div>');
   if (place) meta.push('<div class="perf-spec"><span class="perf-spec__label">' + cityLabel + '</span><span class="perf-spec__value">' + esc(place) + '</span></div>');
+  if (role) meta.push('<div class="perf-spec"><span class="perf-spec__label">' + roleLabel + '</span><span class="perf-spec__value">' + esc(role) + '</span></div>');
+  if (taught) meta.push('<div class="perf-spec"><span class="perf-spec__label">' + taughtLabel + '</span><span class="perf-spec__value">' + esc(taught) + '</span></div>');
 
   const body =
     '<section class="section perf-page__head">' +

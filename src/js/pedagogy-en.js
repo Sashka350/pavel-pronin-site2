@@ -4,6 +4,7 @@
  */
 import { pedagogyProjects } from '../data/pedagogy-data.js';
 import { pedagogyProjectsEn } from '../data/pedagogy-en.js';
+import { pedagogySpecs } from './pedagogy-specs.js';
 
 const BASE = import.meta.env.BASE_URL;
 
@@ -29,6 +30,10 @@ const BASE = import.meta.env.BASE_URL;
         '<div class="perf-card__body">' +
         '<h3 class="perf-card__title">' + title + '</h3>' +
         '<div class="perf-card__theater">' + [place, period].filter(Boolean).join(', ') + '</div>' +
+        pedagogySpecs({
+          role: en.role || p.role,
+          taught: en.taught || p.taught
+        }, 'en') +
         (p.note ? '<div class="perf-card__meta"><span>' + p.note + '</span></div>' : '') +
         '</div>' +
         '</a>'

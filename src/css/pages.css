@@ -67,6 +67,15 @@
   font-weight: 600;
   letter-spacing: -0.02em;
   margin-bottom: 0.75rem;
+  overflow-wrap: break-word;
+}
+
+/* На 320–400px заголовок 48px не помещает даже одно длинное слово —
+  появляется горизонтальная прокрутка. Уменьшаем размер, перенос разрешаем. */
+@media (max-width: 400px) {
+  .page-head__title {
+    font-size: clamp(2rem, 9vw, 3rem);
+  }
 }
 
 .page-head__lead {
@@ -312,6 +321,14 @@
   font-weight: 600;
   letter-spacing: -0.02em;
   margin-bottom: 0.5rem;
+  overflow-wrap: break-word;
+}
+
+/* То же, что у .page-head__title: на узких экранах длинное слово не влезает. */
+@media (max-width: 400px) {
+  .perf-page__title {
+    font-size: clamp(2rem, 9vw, 3rem);
+  }
 }
 
 .perf-page__author {
