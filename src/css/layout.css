@@ -709,6 +709,10 @@ body.nav-open {
     grid-template-columns: repeat(2, 1fr);
   }
 
+  .grid--contacts {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .footer__grid {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -730,6 +734,10 @@ body.nav-open {
 
   .grid--perfs {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .grid--contacts {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 

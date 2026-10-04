@@ -129,6 +129,55 @@
   font-size: var(--text-sm);
 }
 
+/* --- Карточка контакта: тот же стиль, что у карточек спектаклей и анонсов --- */
+.contact-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1.5rem;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  color: inherit;
+  transition: transform var(--transition), box-shadow var(--transition),
+    border-color var(--transition);
+}
+
+a.contact-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+  border-color: var(--accent);
+  color: inherit;
+}
+
+a.contact-card:active {
+  transform: scale(0.98);
+}
+
+.contact-card__icon {
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+.contact-card__icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.contact-card__label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.contact-card__value {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
 /* --- Сетки --- */
 .grid {
   display: grid;
@@ -136,6 +185,10 @@
 }
 
 .grid--perfs {
+  grid-template-columns: 1fr;
+}
+
+.grid--contacts {
   grid-template-columns: 1fr;
 }
 

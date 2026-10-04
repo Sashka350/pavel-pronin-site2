@@ -1,5 +1,5 @@
 /**
- * announcements.js — блок «Анонсы» на главной.
+ * announcements.js — блок «Новости» на главной (лента «Ближайшее»).
  * Если массив анонсов пуст — блок скрывается (display: none).
  */
 (function () {
@@ -11,18 +11,34 @@
 
   // ЗАГЛУШКА: реальные анонсы появятся после согласования с заказчиком.
   // Чтобы скрыть блок полностью — сделайте массив пустым: []
-  const announcements = [
-    {
-      title: 'Премьера «Принцессы Турандот»',
-      date: 'Ноябрь 2026',
-      place: 'Элиста'
-    },
-    {
-      title: 'Семинар по Диалогам Платона',
-      date: 'Октябрь 2026',
-      place: 'Москва'
-    }
-  ];
+  const DATA = {
+    ru: [
+      {
+        title: 'Премьера «Принцессы Турандот»',
+        date: 'Ноябрь 2026',
+        place: 'Элиста'
+      },
+      {
+        title: 'Семинар по Диалогам Платона',
+        date: 'Октябрь 2026',
+        place: 'Москва'
+      }
+    ],
+    en: [
+      {
+        title: '«The Turandot» premiere',
+        date: 'November 2026',
+        place: 'Elista'
+      },
+      {
+        title: 'Seminar on Plato’s Dialogues',
+        date: 'October 2026',
+        place: 'Moscow'
+      }
+    ]
+  };
+
+  const announcements = grid.getAttribute('data-lang') === 'en' ? DATA.en : DATA.ru;
 
   if (!announcements.length) {
     section.classList.add('is-hidden');

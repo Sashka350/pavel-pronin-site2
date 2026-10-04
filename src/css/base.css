@@ -101,9 +101,45 @@ h3 {
   margin-bottom: 2.5rem;
 }
 
+/* Заголовок блока, у которого справа стоит ссылка («Все спектакли →»).
+   На 768px+ — одна строка, на мобильных ссылка уходит под заголовок. */
+.section__header--split {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.section__header-action {
+  flex-shrink: 0;
+}
+
+@media (min-width: 768px) {
+  .section__header--split {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .section__header-action {
+    margin-top: 0.4rem;
+  }
+}
+
 .section__title {
   font-size: var(--text-3xl);
   margin-bottom: 0.5rem;
+}
+
+.section__subtitle {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  margin-bottom: 1.25rem;
 }
 
 .section__lead {
