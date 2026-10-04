@@ -9,6 +9,19 @@
     content="Каталог спектаклей режиссёра Павла Пронина: более 25 постановок по всей России — от классики до современной драматургии."
   />
   <meta name="theme-color" content="#0C0C0C" />
+  <!-- Тема до первой отрисовки: ручной выбор важнее, иначе — по времени суток -->
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('theme');
+        var hour = new Date().getHours();
+        var byTime = hour >= 7 && hour < 21 ? 'light' : 'dark';
+        var theme = stored === 'dark' || stored === 'light' ? stored : byTime;
+        document.documentElement.setAttribute('data-theme', theme);
+        document.documentElement.style.colorScheme = theme;
+      } catch (e) {}
+    })();
+  </script>
   <link rel="canonical" href="https://sashka350.github.io/pavel-pronin-site2/performances/" />
 
   <!-- Open Graph -->

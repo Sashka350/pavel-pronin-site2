@@ -135,10 +135,30 @@ export function footer() {
   );
 }
 
+/**
+ * themeScript — инлайновый скрипт в <head>: выставляет тему до первой отрисовки,
+ * иначе между разметкой и подключением theme.js успевает проглядеть тёмный фон.
+ * Логика та же, что в src/js/theme.js: ручной выбор из localStorage важнее,
+ * иначе светлая тема с 07:00 до 21:00 по местному времени.
+ */
+export function themeScript() {
+  return (
+    '<script>' +
+    '(function(){try{' +
+    "var s=localStorage.getItem('theme');" +
+    'var h=new Date().getHours();' +
+    "var t=s==='dark'||s==='light'?s:(h>=7&&h<21?'light':'dark');" +
+    "var r=document.documentElement;r.setAttribute('data-theme',t);r.style.colorScheme=t;" +
+    '}catch(e){}})();' +
+    '</script>'
+  );
+}
+
 export function head(opts) {
   return (
     '<meta charset="UTF-8" />' +
     '<meta name="viewport" content="width=device-width, initial-scale=1.0" />' +
+    themeScript() +
     '<title>' + esc(opts.title) + '</title>' +
     '<meta name="description" content="' + esc(opts.description) + '" />' +
     '<meta name="theme-color" content="#0C0C0C" />' +

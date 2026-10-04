@@ -9,6 +9,19 @@
     content="Pavel Pronin — theater director and teacher. Graduate of Anatoly Vasilyev's studio. Stages plays across Russia, teaches at GITIS."
   />
   <meta name="theme-color" content="#0C0C0C" />
+  <!-- Тема до первой отрисовки: ручной выбор важнее, иначе — по времени суток -->
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('theme');
+        var hour = new Date().getHours();
+        var byTime = hour >= 7 && hour < 21 ? 'light' : 'dark';
+        var theme = stored === 'dark' || stored === 'light' ? stored : byTime;
+        document.documentElement.setAttribute('data-theme', theme);
+        document.documentElement.style.colorScheme = theme;
+      } catch (e) {}
+    })();
+  </script>
   <link rel="canonical" href="https://sashka350.github.io/pavel-pronin-site2/en/" />
 
   <!-- Open Graph -->

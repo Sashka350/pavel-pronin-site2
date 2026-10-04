@@ -5,6 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex" />
   <title>Page not found — Pavel Pronin</title>
+
+  <!-- Тема до первой отрисовки: ручной выбор важнее, иначе — по времени суток -->
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('theme');
+        var hour = new Date().getHours();
+        var byTime = hour >= 7 && hour < 21 ? 'light' : 'dark';
+        var theme = stored === 'dark' || stored === 'light' ? stored : byTime;
+        document.documentElement.setAttribute('data-theme', theme);
+        document.documentElement.style.colorScheme = theme;
+      } catch (e) {}
+    })();
+  </script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -72,6 +86,11 @@
       color: #D4A843;
       border-color: #D4A843;
     }
+    /* Светлая тема — по времени суток или ручным выбором */
+    [data-theme="light"] body { background: #FAFAF8; color: #1A1A1A; }
+    [data-theme="light"] p { color: #5A5A5A; }
+    [data-theme="light"] a.home { color: #1A1A1A; border-color: #D8D8D4; }
+    [data-theme="light"] .lang a { color: #5A5A5A; border-color: #D8D8D4; }
   </style>
 </head>
 <body>
