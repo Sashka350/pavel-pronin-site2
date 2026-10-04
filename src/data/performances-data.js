@@ -1,6 +1,7 @@
 /**
  * performances-data.js — реестр спектаклей.
- * Источник: старый сайт pavelpronin.me/performances/ (перенесено 01.09.2026).
+ * Источник: старый сайт pavelpronin.me/performances/ (перенесено 01.09.2026),
+ * годы премьер уточнены по файлам режиссёра 05.10.2026.
  *
  * Поля:
  *   slug    — англ. слаг для URL (/performances/<slug>/)
@@ -11,7 +12,13 @@
  *   status  — 'live' (идёт в репертуаре) | 'archive' (архив)
  *   image   — постер/фото (пока URL со старого сайта, заменим на реальные фото)
  *
- * ВАЖНО: статусы и годы — предварительные, уточнить у заказчика.
+ * Описания, эпиграфы, составы команды, прессу и видео здесь НЕ держат:
+ * они лежат в performances-archive.js (собрано из Материалы для сайта.zip),
+ * а страницы собирает scripts/generate-performances.mjs.
+ *
+ * ВАЖНО: 12 спектаклей из архива описаны и датированы по документам
+ * заказчика. Остальные 16 — только название с театром и годом, ждут текстов.
+ * Статусы уточнить у заказчика.
  */
 
 export const performances = [
@@ -164,7 +171,7 @@ export const performances = [
     title: '«Варшавская мелодия»',
     author: 'Л.Г. Зорин',
     theater: 'Учебный театр ГИТИС',
-    year: 2021,
+    year: 2020,
     status: 'archive',
     image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1623658351491-GP34L5Y5KMMQAQC0E5J9/Varshavskaya_afisha.jpg'
   },
@@ -173,7 +180,7 @@ export const performances = [
     title: '«Щелкунчик»',
     author: 'Э.Т.А. Гофман',
     theater: 'Севастопольский академический драматический театр имени А.В. Луначарского',
-    year: 2021,
+    year: 2019,
     status: 'archive',
     image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1623656506184-1U9LLJZUF1L0X36WZZKP/et-z9DIaS1E.jpg'
   },
@@ -182,7 +189,7 @@ export const performances = [
     title: '«Тимур и его команда»',
     author: 'А.П. Гайдар',
     theater: 'Екатеринбургский театр юного зрителя',
-    year: 2021,
+    year: 2019,
     status: 'archive',
     image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1623330167266-L29DRJF5BGXNLLDGK3LI/IMG_7611.jpg'
   },
@@ -191,7 +198,7 @@ export const performances = [
     title: '«Назад к убийству»',
     author: 'А. Кристи',
     theater: 'Драматический театр «Колесо» им. н.а. России Г.Б. Дроздова',
-    year: 2021,
+    year: 2019,
     status: 'archive',
     image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1623224836454-2WD04XTNHQW6K1F21U5I/1+1.jpg'
   },
@@ -200,7 +207,7 @@ export const performances = [
     title: '«Звёздный мальчик»',
     author: 'О. Уайлд',
     theater: 'Драматический театр «Колесо» им. н.а. России Г.Б. Дроздова',
-    year: 2021,
+    year: 2018,
     status: 'archive',
     image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1623222623835-ZAO4HGQGOB6IUV88SGA9/mal_15_na_9.jpg'
   },
@@ -209,7 +216,7 @@ export const performances = [
     title: '«Пародист»',
     author: 'Е. Водолазкин',
     theater: 'Драматический театр «Колесо» им. н.а. России Г.Б. Дроздова',
-    year: 2021,
+    year: 2018,
     status: 'archive',
     image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1623218243321-OQAD9EHTISME274A817A/IMG_4596.JPG'
   },
@@ -218,7 +225,7 @@ export const performances = [
     title: 'Мюзикл «Влюблённый город»',
     author: '',
     theater: 'Драматический театр «Колесо» им. н.а. России Г.Б. Дроздова',
-    year: 2021,
+    year: 2018,
     status: 'archive',
     image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1623152919120-WUTKLYC97ZQZS9PDS0GA/IMG_9816.jpg'
   },
@@ -227,7 +234,7 @@ export const performances = [
     title: '«Комедия ошибок»',
     author: 'У. Шекспир',
     theater: 'Национальный драматический театр им. Б. Басангова',
-    year: 2021,
+    year: 2017,
     status: 'archive',
     image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1623150701538-Y5SORLFSN7E1VEXYSM37/IMG_8872.JPEG'
   },
@@ -236,7 +243,7 @@ export const performances = [
     title: '«Зойкина квартира»',
     author: 'М.А. Булгаков',
     theater: 'Национальный академический драматический театр им. Горького',
-    year: 2021,
+    year: 2017,
     status: 'archive',
     image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1623131627423-ZP52CYJGF2AGZLL39TG0/IMG_8727.PNG'
   },
@@ -245,7 +252,7 @@ export const performances = [
     title: '«Звёзды светят на потолке»',
     author: 'Й. Тидель',
     theater: 'Краснодарский Молодёжный театр',
-    year: 2021,
+    year: 2017,
     status: 'archive',
     image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1623130219628-O3EIVIPWVWO95M0JK9A8/IMG_4892.JPG'
   },
@@ -254,7 +261,7 @@ export const performances = [
     title: '«Проезд Гагарина»',
     author: 'Г. Бёрк',
     theater: 'Русский театр Эстонии',
-    year: 2021,
+    year: 2017,
     status: 'archive',
     image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1623053792042-OA554BPO7HULS0N2EKA1/555x800piletilevi2veneteater.jpg__800x1200_q85_crop_subsampling-2.jpg'
   },
@@ -263,7 +270,7 @@ export const performances = [
     title: '«Отрочество»',
     author: 'Я. Пулинович по Л.Н. Толстому',
     theater: 'Режиссёрский факультет ГИТИС',
-    year: 2021,
+    year: 2016,
     status: 'archive',
     image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1623823516163-B03T2HH1PNB0M4RBOCOA/IMG_0284.PNG'
   }

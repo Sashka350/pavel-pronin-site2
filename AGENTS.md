@@ -61,9 +61,14 @@
 - `scripts/page-template-en.js` — то же для EN-страниц.
 - `scripts/generate-performances.mjs`, `scripts/generate-pedagogy.mjs`,
   `scripts/generate-news.mjs` — генераторы страниц (запускаются в `postbuild`).
+- `scripts/import-inscenization.mjs`, `scripts/import-performances.mjs` — разбор
+  файлов режиссёра (`.docx` из `Материалы для сайта.zip`) в тексты данных.
+  Запускаются вручную, только когда заказчик прислал новые файлы; перезаписывают
+  свои файлы в `src/data/` целиком.
 - `scripts/check-responsive.mjs` — проверка адаптива на опубликованном сайте.
-- `src/data/` — данные контента (performances, pedagogy, news, inscenizations
-  и их `-en`-версии). В шапке каждого файла — комментарий, что означает поле.
+- `src/data/` — данные контента (performances, performances-archive, pedagogy,
+  news, inscenizations и их `-en`-версии). В шапке каждого файла — комментарий,
+  что означает поле.
 - `src/css/` — стили (variables, base, layout, components, pages).
 - `src/js/` — скрипты (catalog, pedagogy, news-feed, news, gallery, theme, nav).
 - `src/main.js` — входной JS.

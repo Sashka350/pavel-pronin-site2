@@ -740,6 +740,41 @@
   color: var(--accent-hover);
 }
 
+.perf-spec__role {
+  color: var(--text-muted);
+}
+
+/* Эпиграф из файла режиссёра — между театром и описанием. */
+.perf-page__epigraph {
+  max-width: var(--container-narrow);
+  margin-bottom: 2.5rem;
+  padding-left: 1.25rem;
+  border-left: 2px solid var(--accent);
+  font-style: italic;
+  font-size: var(--text-lg);
+  line-height: var(--leading-normal);
+  color: var(--text-secondary);
+}
+
+.perf-page__epigraph p + p {
+  margin-top: 0.35rem;
+}
+
+/* Пометка на EN-странице: описания переведены не все. */
+.perf-page__lang-note {
+  margin-bottom: 2rem;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.perf-page__lang-note a {
+  color: var(--accent);
+}
+
+.perf-page__lang-note a:hover {
+  color: var(--accent-hover);
+}
+
 /* --- ===== РАЗДЕЛ «НОВОСТИ» ===== --- */
 .news__section + .news__section {
   margin-top: 3rem;

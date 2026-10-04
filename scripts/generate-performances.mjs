@@ -9,6 +9,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { performances } from '../src/data/performances-data.js';
 import { performancesEn } from '../src/data/performances-en.js';
+import { performancesArchive } from '../src/data/performances-archive.js';
 import { esc, getAssets, wrapHtml, withBase, SITE } from './page-template.js';
 import { wrapHtml as wrapHtmlEn, SITE as SITE_EN } from './page-template-en.js';
 
@@ -35,6 +36,41 @@ const PLACEHOLDER_EN = {
   premiere: 'To be confirmed.',
   gallery: '— poster'
 };
+
+/** Список строк ссылок. */
+function linkList(items, emptyLabel) {
+  return (
+    '<ul>' +
+    items
+      .map(function (it) {
+        return '<li><a href="' + it.url + '" target="_blank" rel="noopener">' + esc(it.label || emptyLabel) + '</a></li>';
+      })
+      .join('') +
+    '</ul>'
+  );
+}
+
+/** Команда «роль — имя». */
+function teamList(team) {
+  return (
+    '<ul>' +
+    team
+      .map(function (t) {
+        return '<li><span class="perf-spec__role">' + esc(t.role) + '</span> — ' + esc(t.name) + '</li>';
+      })
+      .join('') +
+    '</ul>'
+  );
+}
+
+/** Описание режиссёра абзацами: переносы из файла должны стать абзацами. */
+function paragraphs(list) {
+  return list
+    .map(function (p) {
+      return '<p>' + esc(p) + '</p>';
+    })
+    .join('');
+}
 
 function page(p, lang) {
   const isEn = lang === 'en';
@@ -71,20 +107,68 @@ function page(p, lang) {
         '</figure>'
       );
 
-  const team = Array.isArray(p.team) && p.team.length
-    ? '<ul>' + p.team.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>'
+  // Тексты из архива заказчика. Их нет у 16 спектаклей — для них остаются
+  // заглушки, которые показываем явно.
+  const a = performancesArchive[p.slug] || null;
+
+  const hasDescription = Boolean(a && a.description.length);
+  // EN-страница: описания 12 спектаклей на английский ещё не переведены
+  // (шаг 10), поэтому русский текст показываем с пометкой и ссылкой на
+  // русскую версию — молча смешивать языки нельзя.
+  const ruNote = isEn && a
+    ? '<p class="perf-page__lang-note">The director’s text and the production details are published in Russian. ' +
+      '<a href="' + withBase('/performances/' + p.slug + '/') + '">Read in Russian</a></p>'
+    : '';
+
+  const epigraph = a && a.epigraph.length
+    ? '<div class="perf-page__epigraph animate-on-scroll">' +
+      a.epigraph
+        .map(function (line) {
+          return '<p>' + esc(line) + '</p>';
+        })
+        .join('') +
+      '</div>'
+    : '';
+
+  const description = hasDescription
+    ? '<div class="perf-page__desc">' + paragraphs(a.description) + '</div>'
+    : '<p class="perf-page__desc">' + esc(pl.description) + '</p>';
+
+  const team = a && a.team.length
+    ? teamList(a.team)
     : '<p class="perf-page__desc">' + pl.team + '</p>';
-  const press = Array.isArray(p.press) && p.press.length
-    ? '<ul>' + p.press.map(function (pr) { return '<li><a href="' + pr.url + '" target="_blank" rel="noopener">' + esc(pr.label || pr.url) + '</a></li>'; }).join('') + '</ul>'
+
+  const press = a
+    ? (a.press.length
+        ? linkList(a.press, isEn ? 'Press' : 'Пресса')
+        : '<p class="perf-page__desc">' + (isEn ? 'No press materials.' : 'Пресса не писала об этой постановке.') + '</p>')
     : '<p class="perf-page__desc">' + pl.press + '</p>';
-  const videos = Array.isArray(p.videos) && p.videos.length
-    ? '<ul>' + p.videos.map(function (v) { return '<li><a href="' + v.url + '" target="_blank" rel="noopener">' + esc(v.label || (isEn ? 'Video' : 'Видео')) + '</a></li>'; }).join('') + '</ul>'
+
+  const videos = a
+    ? (a.videos.length
+        ? linkList(a.videos, isEn ? 'Watch the performance' : 'Посмотреть спектакль')
+        : '<p class="perf-page__desc">' + (isEn ? 'No video available.' : 'Видеозаписи нет.') + '</p>')
     : '<p class="perf-page__desc">' + pl.videos + '</p>';
 
-  const premiere = p.premiere ? p.premiere : pl.premiere;
-  const description = p.description ? p.description : pl.description;
+  // Дата премьеры по-русски; на EN-странице показываем только год, подробности
+// всё равно остаются на русской версии.
+const premiere = a ? (isEn && a.year ? String(a.year) : a.premiere) : pl.premiere;
+  const city = a && a.city ? esc(a.city) : '';
+  const awards = a && a.awards.length
+    ? '<ul>' + a.awards.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>'
+    : '';
 
   const site = isEn ? SITE_EN : SITE;
+  // Лид описания режиссёра идёт в meta description: «Театр + Режиссёр» мало,
+  // а первые слова описания объясняют, что за работа. Обрезаем по границе
+  // слова, чтобы не оставить обрывок.
+  const lead = hasDescription ? a.description[0] : '';
+  const metaDescription = (
+    lead
+      ? lead.length > 150 ? lead.slice(0, 147).replace(/\s\S*$/, '') + '…' : lead
+      : title + '. ' + theater
+  ).replace(/\s+/g, ' ') + (isEn ? '. Director Pavel Pronin.' : '. Режиссёр Павел Пронин.');
+
   const jsonld = {
     '@context': 'https://schema.org',
     '@type': 'CreativeWork',
@@ -95,8 +179,8 @@ function page(p, lang) {
     'dateCreated': p.year ? String(p.year) : undefined
   };
 
-  let t = 'Театр', o = 'О спектакле', info = 'Сведения о постановке', pr = 'Премьера', cr = 'Творческая команда', prs = 'Пресса', vid = 'Видео', ph = 'Фотографии';
-  if (isEn) { t = 'Theatre'; o = 'About the play'; info = 'Production details'; pr = 'Premiere'; cr = 'Creative team'; prs = 'Press'; vid = 'Video'; ph = 'Photos'; }
+  let t = 'Театр', o = 'О спектакле', info = 'Сведения о постановке', pr = 'Премьера', cityLabel = 'Город', cr = 'Творческая команда', aw = 'Фестивали и награды', prs = 'Пресса', vid = 'Видео', ph = 'Фотографии';
+  if (isEn) { t = 'Theatre'; o = 'About the play'; info = 'Production details'; pr = 'Premiere'; cityLabel = 'City'; cr = 'Creative team'; aw = 'Festivals and awards'; prs = 'Press'; vid = 'Video'; ph = 'Photos'; }
 
   const body =
     '<section class="section perf-page__head">' +
@@ -116,22 +200,27 @@ function page(p, lang) {
     '<div class="perf-page__cover animate-on-scroll">' +
     '<img src="' + imgSrc + '" alt="' + esc(imgAlt) + '" />' +
     '</div>' +
+    ruNote +
 
     '<div class="perf-page__section animate-on-scroll">' +
     '<h2 class="perf-page__section-title">' + t + '</h2>' +
     '<p class="perf-page__desc">' + esc(theater) + '</p>' +
     '</div>' +
 
+    epigraph +
+
     '<div class="perf-page__section animate-on-scroll">' +
     '<h2 class="perf-page__section-title">' + o + '</h2>' +
-    '<div class="perf-page__desc"><p>' + esc(description) + '</p></div>' +
+    description +
     '</div>' +
 
     '<div class="perf-page__section animate-on-scroll">' +
     '<h2 class="perf-page__section-title">' + info + '</h2>' +
     '<div class="perf-page__specs">' +
     '<div class="perf-spec"><span class="perf-spec__label">' + pr + '</span><span class="perf-spec__value">' + esc(premiere) + '</span></div>' +
+    (city ? '<div class="perf-spec"><span class="perf-spec__label">' + cityLabel + '</span><span class="perf-spec__value">' + city + '</span></div>' : '') +
     '<div class="perf-spec"><span class="perf-spec__label">' + cr + '</span><div class="perf-spec__value">' + team + '</div></div>' +
+    (awards ? '<div class="perf-spec"><span class="perf-spec__label">' + aw + '</span><div class="perf-spec__value">' + awards + '</div></div>' : '') +
     '</div>' +
     '</div>' +
 
@@ -157,7 +246,7 @@ function page(p, lang) {
     enPath: '/en/performances/' + p.slug + '/',
     ruPath: isEn ? '/performances/' + p.slug + '/' : undefined,
     title: title + (isEn ? ' — Pavel Pronin' : ' — Павел Пронин'),
-    description: title + '. ' + theater + (isEn ? '. Director Pavel Pronin.' : '. Режиссёр Павел Пронин.'),
+    description: metaDescription,
     ogDescription: theater,
     ogImage: imgSrc,
     ogType: 'article',
