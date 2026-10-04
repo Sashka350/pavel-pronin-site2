@@ -18,7 +18,7 @@ function withEn(path) {
   return EN + String(path).replace(/^\//, '');
 }
 
-export { BASE, SITE, EN };
+export { BASE, SITE, EN, withEn };
 
 export function esc(s) {
   return String(s ?? '')
@@ -51,7 +51,7 @@ function navLinks(active) {
   return links
     .map(function (l) {
       const activeCls = l[2] === active ? ' is-active' : '';
-      return '<li><a class="nav-link' + activeCls + '" href="' + withEn(l[0]) + '">' + l[1] + '</a></li>';
+      return '<li><a class="nav-link' + activeCls + '" href="' + withBase(l[0]) + '">' + l[1] + '</a></li>';
     })
     .join('');
 }
@@ -68,7 +68,7 @@ function mobileNavLinks(active) {
   return links
     .map(function (l) {
       const activeCls = l[2] === active ? ' is-active' : '';
-      return '<li><a class="nav-link' + activeCls + '" href="' + withEn(l[0]) + '">' + l[1] + '</a></li>';
+      return '<li><a class="nav-link' + activeCls + '" href="' + withBase(l[0]) + '">' + l[1] + '</a></li>';
     })
     .join('');
 }

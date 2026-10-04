@@ -9,7 +9,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { pedagogyProjects } from '../src/data/pedagogy-data.js';
 import { pedagogyProjectsEn } from '../src/data/pedagogy-en.js';
-import { esc, getAssets, wrapHtml } from './page-template.js';
+import { esc, getAssets, wrapHtml, withBase } from './page-template.js';
 import { wrapHtml as wrapHtmlEn } from './page-template-en.js';
 
 const root = dirname(fileURLToPath(import.meta.url));
@@ -63,7 +63,7 @@ function page(p, lang) {
   const body =
     '<section class="section perf-page__head">' +
     '<div class="container">' +
-    '<a class="perf-page__back animate-on-scroll" href="' + (isEn ? '/en/pedagogy/' : '/pedagogy/') + '"><span class="arrow">→</span>' + backLabel + '</a>' +
+    '<a class="perf-page__back animate-on-scroll" href="' + withBase(isEn ? '/en/pedagogy/' : '/pedagogy/') + '"><span class="arrow">→</span>' + backLabel + '</a>' +
     '<p class="perf-page__meta animate-on-scroll">' + metaCrumb + '</p>' +
     '<h1 class="perf-page__title animate-on-scroll">' + esc(title) + '</h1>' +
     '</div>' +

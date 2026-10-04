@@ -12,8 +12,7 @@ import { inscenizationsEn } from '../data/inscenizations-en.js';
 
   list.innerHTML = inscenizationsEn
     .map(function (item) {
-      const slug = String(item.oldUrl || '').replace(/^\//, '');
-      const href = base + 'en/inscenizations/' + slug + '/';
+      const href = base + 'en/inscenizations/' + item.slug + '/';
       return (
         '<li class="insc-item animate-on-scroll">' +
         '<a class="insc-item__link" href="' + href + '">' +

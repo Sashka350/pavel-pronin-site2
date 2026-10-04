@@ -9,7 +9,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { performances } from '../src/data/performances-data.js';
 import { performancesEn } from '../src/data/performances-en.js';
-import { esc, getAssets, wrapHtml, SITE } from './page-template.js';
+import { esc, getAssets, wrapHtml, withBase, SITE } from './page-template.js';
 import { wrapHtml as wrapHtmlEn, SITE as SITE_EN } from './page-template-en.js';
 
 const root = dirname(fileURLToPath(import.meta.url));
@@ -101,7 +101,7 @@ function page(p, lang) {
   const body =
     '<section class="section perf-page__head">' +
     '<div class="container">' +
-    '<a class="perf-page__back animate-on-scroll" href="' + (isEn ? '/en/performances/' : '/performances/') + '"><span class="arrow">→</span>' + backLabel + '</a>' +
+    '<a class="perf-page__back animate-on-scroll" href="' + withBase(isEn ? '/en/performances/' : '/performances/') + '"><span class="arrow">→</span>' + backLabel + '</a>' +
     '<div class="perf-page__meta animate-on-scroll">' +
     badge +
     '<span>' + p.year + '</span>' +
@@ -212,6 +212,18 @@ try {
   console.error('Не удалось прочитать новости для sitemap:', e.message);
 }
 
+const inscenizationPaths = new Set();
+const inscenizationPathsEn = new Set();
+try {
+  const { inscenizations } = await import('../src/data/inscenizations-data.js');
+  inscenizations.forEach(function (i) {
+    if (i.slug) inscenizationPaths.add(SITE + '/inscenizations/' + i.slug + '/');
+    if (i.slug) inscenizationPathsEn.add(SITE_EN + '/inscenizations/' + i.slug + '/');
+  });
+} catch (e) {
+  console.error('Не удалось прочитать инсценировки для sitemap:', e.message);
+}
+
 const staticPages = [
   '',
   'performances/',
@@ -258,6 +270,12 @@ newsPaths.forEach(function (loc) {
   urls.push({ loc: loc, lastmod: today, priority: '0.6' });
 });
 newsPathsEn.forEach(function (loc) {
+  urls.push({ loc: loc, lastmod: today, priority: '0.5' });
+});
+inscenizationPaths.forEach(function (loc) {
+  urls.push({ loc: loc, lastmod: today, priority: '0.6' });
+});
+inscenizationPathsEn.forEach(function (loc) {
   urls.push({ loc: loc, lastmod: today, priority: '0.5' });
 });
 

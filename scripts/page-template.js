@@ -15,7 +15,7 @@ function withBase(path) {
   return BASE + String(path).replace(/^\//, '');
 }
 
-export { BASE, SITE };
+export { BASE, SITE, withBase };
 
 export function esc(s) {
   return String(s ?? '')

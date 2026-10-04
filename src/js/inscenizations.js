@@ -1,8 +1,7 @@
 /**
  * inscenizations.js — рендер списка инсценировок.
- * Каждая работа временно ведёт на собственную страницу-заглушку,
- * которая пока не создана и потому отдаёт 404. Внешних редиректов
- * на старый сайт нет.
+ * Ссылка ведёт на страницу отрывка: /inscenizations/<slug>/,
+ * её собирает scripts/generate-inscenizations.mjs.
  */
 import { inscenizations } from '../data/inscenizations-data.js';
 
@@ -14,8 +13,7 @@ import { inscenizations } from '../data/inscenizations-data.js';
 
   list.innerHTML = inscenizations
     .map(function (item) {
-      const slug = String(item.oldUrl || '').replace(/^\//, '');
-      const href = base + 'inscenizations/' + slug + '/';
+      const href = base + 'inscenizations/' + item.slug + '/';
       return (
         '<li class="insc-item animate-on-scroll">' +
         '<a class="insc-item__link" href="' + href + '">' +

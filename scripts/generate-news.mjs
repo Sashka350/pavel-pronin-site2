@@ -9,7 +9,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { posts } from '../src/data/news-data.js';
 import { newsEn } from '../src/data/news-en.js';
-import { esc, getAssets, wrapHtml, SITE } from './page-template.js';
+import { esc, getAssets, wrapHtml, withBase, SITE } from './page-template.js';
 import { wrapHtml as wrapHtmlEn, SITE as SITE_EN } from './page-template-en.js';
 
 const root = dirname(fileURLToPath(import.meta.url));
@@ -50,7 +50,7 @@ function page(p, lang) {
   const text = paragraphs(body) || '<p>' + esc(isEn ? PLACEHOLDER.en : PLACEHOLDER.ru) + '</p>';
 
   const backLabel = isEn ? 'All news' : 'Все новости';
-  const backHref = isEn ? '/en/news/' : '/news/';
+  const backHref = withBase(isEn ? '/en/news/' : '/news/');
   const imgAlt = isEn ? title + ' — photo' : title + ' — фото';
 
   const meta = ['<span class="news-page__date">' + esc(dateLabel) + '</span>'];
@@ -69,7 +69,7 @@ function page(p, lang) {
   const content =
     '<section class="section perf-page__head">' +
     '<div class="container">' +
-    '<a class="perf-page__back animate-on-scroll" href="' + (isEn ? '/en/news/' : '/news/') + '"><span class="arrow">→</span>' + backLabel + '</a>' +
+    '<a class="perf-page__back animate-on-scroll" href="' + withBase(isEn ? '/en/news/' : '/news/') + '"><span class="arrow">→</span>' + backLabel + '</a>' +
     '<div class="perf-page__meta animate-on-scroll">' +
     meta.join('') +
     '</div>' +
