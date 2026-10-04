@@ -491,9 +491,10 @@ body.nav-open {
 .hero__creds {
   font-family: var(--font-mono);
   font-size: var(--text-sm);
-  color: var(--text-muted);
+  color: var(--text-secondary);
   letter-spacing: 0.02em;
-  max-width: 34ch;
+  max-width: 46ch;
+  text-wrap: balance;
 }
 
 .hero__actions {
@@ -604,7 +605,7 @@ body.nav-open {
   }
 
   .hero__creds {
-    max-width: 30ch;
+    max-width: 42ch;
     padding-top: 0.25rem;
   }
 }
