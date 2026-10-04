@@ -6,8 +6,8 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-const BASE = process.env.BASE_PATH || '/pavel-pronin-site1/';
-const SITE = process.env.SITE_URL || 'https://sashka350.github.io/pavel-pronin-site1';
+const BASE = process.env.BASE_PATH || '/pavel-pronin-site2/';
+const SITE = process.env.SITE_URL || 'https://sashka350.github.io/pavel-pronin-site2';
 const EN = BASE + 'en/';
 
 function withBase(path) {

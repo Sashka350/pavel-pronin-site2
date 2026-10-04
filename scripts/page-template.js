@@ -8,8 +8,8 @@ import { join } from 'node:path';
 // Базовый путь и адрес сайта (должны совпадать с vite.config.js).
 // Пока публикуем на GitHub Pages суб-путь; при кастомном домене задайте
 // BASE_PATH=/ и SITE_URL=https://pavelpronin.me
-const BASE = process.env.BASE_PATH || '/pavel-pronin-site1/';
-const SITE = process.env.SITE_URL || 'https://sashka350.github.io/pavel-pronin-site1';
+const BASE = process.env.BASE_PATH || '/pavel-pronin-site2/';
+const SITE = process.env.SITE_URL || 'https://sashka350.github.io/pavel-pronin-site2';
 
 function withBase(path) {
   return BASE + String(path).replace(/^\//, '');

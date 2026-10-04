@@ -76,8 +76,8 @@
 </head>
 <body>
   <div class="lang">
-    <a href="/pavel-pronin-site1/" title="Русская версия" data-lang="ru">RU</a>
-    <a href="/pavel-pronin-site1/en/" title="English version" data-lang="en">EN</a>
+    <a href="/pavel-pronin-site2/" title="Русская версия" data-lang="ru">RU</a>
+    <a href="/pavel-pronin-site2/en/" title="English version" data-lang="en">EN</a>
   </div>
   <div class="code">404</div>
   <h1 data-ru="Страница не найдена" data-en="Page not found">Страница не найдена</h1>
@@ -85,7 +85,7 @@
      data-en="This page no longer exists, or it has not been published yet. Materials are gradually being moved to the new site.">
     Такой страницы больше нет, либо она ещё не опубликована. Материалы постепенно переносятся на новый сайт.
   </p>
-  <a class="home" href="/pavel-pronin-site1/" data-ru="На главную" data-en="Back to home">На главную</a>
+  <a class="home" href="/pavel-pronin-site2/" data-ru="На главную" data-en="Back to home">На главную</a>
 
   <script>
     (function () {
@@ -97,7 +97,7 @@
       var a = document.querySelector('a.home');
       if (h) h.textContent = h.getAttribute('data-en');
       if (p) p.textContent = p.getAttribute('data-en');
-      if (a) { a.textContent = a.getAttribute('data-en'); a.href = '/pavel-pronin-site1/en/'; }
+      if (a) { a.textContent = a.getAttribute('data-en'); a.href = '/pavel-pronin-site2/en/'; }
       document.querySelectorAll('.lang a').forEach(function (el) {
         el.classList.toggle('is-active', el.getAttribute('data-lang') === 'en');
       });

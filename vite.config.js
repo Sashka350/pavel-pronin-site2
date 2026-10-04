@@ -1,9 +1,9 @@
 import { defineConfig } from 'vite';
 import { fileURLToPath, URL } from 'node:url';
 
-// Базовый путь для GitHub Pages суб-пути (https://<user>.github.io/pavel-pronin-site/).
+// Базовый путь для GitHub Pages суб-пути (https://<user>.github.io/pavel-pronin-site2/).
 // Когда появится кастомный домен (pavelpronin.me) — задайте BASE_PATH=/ .
-const basePath = process.env.BASE_PATH || '/pavel-pronin-site1/';
+const basePath = process.env.BASE_PATH || '/pavel-pronin-site2/';
 
 export default defineConfig({
   root: '.',
