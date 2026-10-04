@@ -66,11 +66,11 @@ export function postsFeed(isEn, limit) {
   return limit ? list.slice(0, limit) : list;
 }
 
-/** Карточка анонса. lead — первое ближайшее событие, на главной во всю ширину. */
+/** Карточка анонса. Все анонсы одинаковые — модификаторов нет. */
 export function eventCard(a, opts) {
   const o = opts || {};
   return (
-    '<article class="event-card animate-on-scroll' + (o.lead ? ' event-card--lead' : '') + '">' +
+    '<article class="event-card animate-on-scroll">' +
     '<div class="event-card__meta">' +
     '<span class="event-card__date">' + a.dateLabel + '</span>' +
     (a.kind ? '<span class="badge">' + a.kind + '</span>' : '') +

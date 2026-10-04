@@ -1,6 +1,6 @@
 /**
  * announcements.js — блок «Новости» на главной.
- * Показывает 1–2 ближайших анонса (первое — во всю ширину) и до трёх
+ * Показывает до двух ближайших анонсов (карточки одинаковые) и до трёх
  * последних записей. Если данных нет вообще — блок скрывается целиком.
  */
 import { eventCard, postCard, upcomingFeed, postsFeed, ui } from './news-feed.js';
@@ -26,8 +26,8 @@ const BASE = import.meta.env.BASE_URL;
   }
 
   if (list.length) {
-    grid.innerHTML = list.map(function (a, i) {
-      return eventCard(a, { lead: i === 0, more: t.more });
+    grid.innerHTML = list.map(function (a) {
+      return eventCard(a, { more: t.more });
     }).join('');
   } else {
     grid.classList.add('is-hidden');
