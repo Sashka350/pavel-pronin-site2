@@ -38,11 +38,11 @@ export function getAssets(outDir) {
 
 function navLinks(active) {
   const links = [
+    ['/news/', 'Новости', 'news'],
     ['/#about', 'Обо мне', 'about'],
     ['/performances/', 'Спектакли', 'performances'],
     ['/pedagogy/', 'Педагогика', 'pedagogy'],
     ['/inscenizations/', 'Инсценировки', 'inscenizations'],
-    ['/news/', 'Новости', 'news'],
     ['/#contacts', 'Контакты', 'contacts']
   ];
   return links

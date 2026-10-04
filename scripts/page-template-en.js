@@ -41,11 +41,11 @@ export function getAssets(outDir) {
 
 function navLinks(active) {
   const links = [
+    ['en/news/', 'News', 'news'],
     ['en/#about', 'About', 'about'],
     ['en/performances/', 'Performances', 'performances'],
     ['en/pedagogy/', 'Pedagogy', 'pedagogy'],
     ['en/inscenizations/', 'Stagings', 'inscenizations'],
-    ['en/news/', 'News', 'news'],
     ['en/#contacts', 'Contacts', 'contacts']
   ];
   return links
@@ -58,11 +58,11 @@ function navLinks(active) {
 
 function mobileNavLinks(active) {
   const links = [
+    ['en/news/', 'News', 'news'],
     ['en/#about', 'About', 'about'],
     ['en/performances/', 'Performances', 'performances'],
     ['en/pedagogy/', 'Pedagogy', 'pedagogy'],
     ['en/inscenizations/', 'Stagings', 'inscenizations'],
-    ['en/news/', 'News', 'news'],
     ['en/#contacts', 'Contacts', 'contacts']
   ];
   return links
