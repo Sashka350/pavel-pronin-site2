@@ -41,7 +41,8 @@ function navLinks(active) {
     ['/#about', 'Обо мне', 'about'],
     ['/performances/', 'Спектакли', 'performances'],
     ['/pedagogy/', 'Педагогика', 'pedagogy'],
-    ['/inscenizations/', 'Инсценировки', 'inscenizations']
+    ['/inscenizations/', 'Инсценировки', 'inscenizations'],
+    ['/#contacts', 'Контакты', 'contacts']
   ];
   return links
     .map(function (l) {

@@ -44,7 +44,8 @@ function navLinks(active) {
     ['en/#about', 'About', 'about'],
     ['en/performances/', 'Performances', 'performances'],
     ['en/pedagogy/', 'Pedagogy', 'pedagogy'],
-    ['en/inscenizations/', 'Stagings', 'inscenizations']
+    ['en/inscenizations/', 'Stagings', 'inscenizations'],
+    ['en/#contacts', 'Contacts', 'contacts']
   ];
   return links
     .map(function (l) {
@@ -59,7 +60,8 @@ function mobileNavLinks(active) {
     ['en/#about', 'About', 'about'],
     ['en/performances/', 'Performances', 'performances'],
     ['en/pedagogy/', 'Pedagogy', 'pedagogy'],
-    ['en/inscenizations/', 'Stagings', 'inscenizations']
+    ['en/inscenizations/', 'Stagings', 'inscenizations'],
+    ['en/#contacts', 'Contacts', 'contacts']
   ];
   return links
     .map(function (l) {
