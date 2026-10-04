@@ -68,7 +68,8 @@
 - `scripts/check-responsive.mjs` — проверка адаптива на опубликованном сайте.
 - `src/data/` — данные контента (performances, performances-archive, pedagogy,
   news, inscenizations и их `-en`-версии). В шапке каждого файла — комментарий,
-  что означает поле.
+  что означает поле. `performances-archive-en.js` — перевод текстов режиссёра
+  по `slug`, зеркалит `performances-archive.js` (те же ключи и порядки).
 - `src/css/` — стили (variables, base, layout, components, pages).
 - `src/js/` — скрипты (catalog, pedagogy, news-feed, news, gallery, theme, nav).
 - `src/main.js` — входной JS.

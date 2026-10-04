@@ -126,7 +126,7 @@ export function footer() {
     '<a href="https://t.me/pashapronin" target="_blank" rel="noopener">Telegram</a>' +
     '</div></div>' +
     '<div class="footer__col"><div class="footer__col-title">Language</div><div class="footer__links">' +
-    '<a href="' + withBase('/') + '">Русская версия</a>' +
+    '<a href="' + withBase('/') + '">Russian version</a>' +
     '</div></div>' +
     '</div>' +
     '<div class="footer__bottom"><span>© 2026 Pavel Pronin</span><span>Director · Teacher · Researcher</span></div>' +

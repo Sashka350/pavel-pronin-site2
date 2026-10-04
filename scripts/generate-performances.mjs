@@ -10,6 +10,7 @@ import { fileURLToPath } from 'node:url';
 import { performances } from '../src/data/performances-data.js';
 import { performancesEn } from '../src/data/performances-en.js';
 import { performancesArchive } from '../src/data/performances-archive.js';
+import { performancesArchiveEn } from '../src/data/performances-archive-en.js';
 import { esc, getAssets, wrapHtml, withBase, SITE } from './page-template.js';
 import { wrapHtml as wrapHtmlEn, SITE as SITE_EN } from './page-template-en.js';
 
@@ -72,6 +73,29 @@ function paragraphs(list) {
     .join('');
 }
 
+/**
+ * Тексты спектакля для страницы: слой перевода поверх русского оригинала.
+ * Перевод берётся только при isEn (см. page()), поэтому RU-страница
+ * английского текста не получает никогда.
+ * Если поле в переводе пропущено или разошлось по длине — берём русский
+ * оригинал и печатаем предупреждение: молча разойтись нельзя.
+ */
+function text(slug, isEn, a, aEn, field) {
+  const ru = a ? a[field] : null;
+  const en = aEn ? aEn[field] : null;
+  if (!isEn || !aEn) return ru;
+  if (en == null || en === '' || (Array.isArray(en) && !en.length)) {
+    if (ru && ru.length) {
+      console.warn('EN: нет перевода «' + field + '» у ' + slug + ' — показан русский оригинал');
+    }
+    return ru;
+  }
+  if (Array.isArray(en) && Array.isArray(ru) && en.length !== ru.length) {
+    console.warn('EN: «' + field + '» у ' + slug + ' — в переводе ' + en.length + ', в оригинале ' + ru.length);
+  }
+  return en;
+}
+
 function page(p, lang) {
   const isEn = lang === 'en';
   const pl = isEn ? PLACEHOLDER_EN : PLACEHOLDER_RU;
@@ -110,19 +134,29 @@ function page(p, lang) {
   // Тексты из архива заказчика. Их нет у 16 спектаклей — для них остаются
   // заглушки, которые показываем явно.
   const a = performancesArchive[p.slug] || null;
+  // Перевод (шаг 10) берётся исключительно при isEn — на русской странице
+  // английского текста быть не должно (подводный камень 11).
+  const aEn = isEn ? (performancesArchiveEn[p.slug] || null) : null;
 
-  const hasDescription = Boolean(a && a.description.length);
-  // EN-страница: описания 12 спектаклей на английский ещё не переведены
-  // (шаг 10), поэтому русский текст показываем с пометкой и ссылкой на
-  // русскую версию — молча смешивать языки нельзя.
-  const ruNote = isEn && a
+  const descText = text(p.slug, isEn, a, aEn, 'description') || [];
+  const epigraphText = text(p.slug, isEn, a, aEn, 'epigraph') || [];
+  const teamText = text(p.slug, isEn, a, aEn, 'team') || [];
+  const pressText = text(p.slug, isEn, a, aEn, 'press') || [];
+  const awardsText = text(p.slug, isEn, a, aEn, 'awards') || [];
+  const premiereText = text(p.slug, isEn, a, aEn, 'premiere');
+  const cityText = text(p.slug, isEn, a, aEn, 'city');
+
+  const hasDescription = descText.length > 0;
+  // Пока перевода нет, русский текст на EN-странице показываем с пометкой и
+  // ссылкой на русскую версию — молча смешивать языки нельзя.
+  const ruNote = isEn && a && !aEn
     ? '<p class="perf-page__lang-note">The director’s text and the production details are published in Russian. ' +
       '<a href="' + withBase('/performances/' + p.slug + '/') + '">Read in Russian</a></p>'
     : '';
 
-  const epigraph = a && a.epigraph.length
+  const epigraph = epigraphText.length
     ? '<div class="perf-page__epigraph animate-on-scroll">' +
-      a.epigraph
+      epigraphText
         .map(function (line) {
           return '<p>' + esc(line) + '</p>';
         })
@@ -131,16 +165,21 @@ function page(p, lang) {
     : '';
 
   const description = hasDescription
-    ? '<div class="perf-page__desc">' + paragraphs(a.description) + '</div>'
+    ? '<div class="perf-page__desc">' + paragraphs(descText) + '</div>'
     : '<p class="perf-page__desc">' + esc(pl.description) + '</p>';
 
-  const team = a && a.team.length
-    ? teamList(a.team)
+  const team = teamText.length
+    ? teamList(teamText)
     : '<p class="perf-page__desc">' + pl.team + '</p>';
 
   const press = a
     ? (a.press.length
-        ? linkList(a.press, isEn ? 'Press' : 'Пресса')
+        ? linkList(
+            a.press.map(function (it, i) {
+              return { url: it.url, label: (pressText[i] && pressText[i].label) || it.label };
+            }),
+            isEn ? 'Press' : 'Пресса'
+          )
         : '<p class="perf-page__desc">' + (isEn ? 'No press materials.' : 'Пресса не писала об этой постановке.') + '</p>')
     : '<p class="perf-page__desc">' + pl.press + '</p>';
 
@@ -150,19 +189,17 @@ function page(p, lang) {
         : '<p class="perf-page__desc">' + (isEn ? 'No video available.' : 'Видеозаписи нет.') + '</p>')
     : '<p class="perf-page__desc">' + pl.videos + '</p>';
 
-  // Дата премьеры по-русски; на EN-странице показываем только год, подробности
-// всё равно остаются на русской версии.
-const premiere = a ? (isEn && a.year ? String(a.year) : a.premiere) : pl.premiere;
-  const city = a && a.city ? esc(a.city) : '';
-  const awards = a && a.awards.length
-    ? '<ul>' + a.awards.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>'
+  const premiere = a ? (premiereText || String(a.year)) : pl.premiere;
+  const city = cityText ? esc(cityText) : '';
+  const awards = awardsText.length
+    ? '<ul>' + awardsText.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>'
     : '';
 
   const site = isEn ? SITE_EN : SITE;
   // Лид описания режиссёра идёт в meta description: «Театр + Режиссёр» мало,
   // а первые слова описания объясняют, что за работа. Обрезаем по границе
   // слова, чтобы не оставить обрывок.
-  const lead = hasDescription ? a.description[0] : '';
+  const lead = hasDescription ? descText[0] : '';
   const metaDescription = (
     lead
       ? lead.length > 150 ? lead.slice(0, 147).replace(/\s\S*$/, '') + '…' : lead
@@ -272,6 +309,15 @@ for (const p of performances) {
   count++;
 }
 console.log('Сгенерировано страниц спектаклей: ' + count + ' → dist/performances/<slug>/ и dist/en/performances/<slug>/');
+
+// Спектакли из архива без английского перевода: на EN-странице они покажут
+// русский текст с пометкой. Список нужен, чтобы видеть объём незакрытого.
+const withoutEn = Object.keys(performancesArchive).filter(function (slug) {
+  return !performancesArchiveEn[slug];
+});
+if (withoutEn.length) {
+  console.log('Без перевода EN (текст режиссёра): ' + withoutEn.length + ' из ' + Object.keys(performancesArchive).length + ' → ' + withoutEn.join(', '));
+}
 
 // --- robots.txt ---
 writeFileSync(join(outDir, 'robots.txt'), 'User-agent: *\nAllow: /\n\nSitemap: ' + SITE + '/sitemap.xml\n', 'utf8');
