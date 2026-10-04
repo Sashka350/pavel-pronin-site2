@@ -199,12 +199,17 @@ function page(p, lang) {
   // Лид описания режиссёра идёт в meta description: «Театр + Режиссёр» мало,
   // а первые слова описания объясняют, что за работа. Обрезаем по границе
   // слова, чтобы не оставить обрывок.
-  const lead = hasDescription ? descText[0] : '';
-  const metaDescription = (
+const lead = hasDescription ? descText[0] : '';
+  const leadBase = (
     lead
       ? lead.length > 150 ? lead.slice(0, 147).replace(/\s\S*$/, '') + '…' : lead
       : title + '. ' + theater
-  ).replace(/\s+/g, ' ') + (isEn ? '. Director Pavel Pronin.' : '. Режиссёр Павел Пронин.');
+  )
+    .replace(/\s+/g, ' ')
+    // хвостовую точку/вопросительный знак убираем, дальше своя пунктуация —
+    // иначе выходит «Which plays … love?. Director». Кавычки-ёлочки не трогаем.
+    .replace(/[.!?…\s]+$/, '');
+  const metaDescription = leadBase + (isEn ? '. Director Pavel Pronin.' : '. Режиссёр Павел Пронин.');
 
   const jsonld = {
     '@context': 'https://schema.org',
