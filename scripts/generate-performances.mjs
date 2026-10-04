@@ -11,6 +11,7 @@ import { performances } from '../src/data/performances-data.js';
 import { performancesEn } from '../src/data/performances-en.js';
 import { performancesArchive } from '../src/data/performances-archive.js';
 import { performancesArchiveEn } from '../src/data/performances-archive-en.js';
+import { galleries } from '../src/data/performances-gallery.js';
 import { esc, getAssets, wrapHtml, withBase, SITE } from './page-template.js';
 import { wrapHtml as wrapHtmlEn, SITE as SITE_EN } from './page-template-en.js';
 
@@ -96,6 +97,12 @@ function text(slug, isEn, a, aEn, field) {
   return en;
 }
 
+/** Абсолютный адрес картинки — для og:image и JSON-LD. */
+function siteImg(relPath, isEn) {
+  if (!relPath) return '';
+  return (isEn ? SITE_EN : SITE) + '/' + relPath;
+}
+
 function page(p, lang) {
   const isEn = lang === 'en';
   const pl = isEn ? PLACEHOLDER_EN : PLACEHOLDER_RU;
@@ -111,18 +118,36 @@ function page(p, lang) {
     : '<span class="badge">' + badgeArchive + '</span>';
   const backLabel = isEn ? 'All performances' : 'Все спектакли';
   const imgAlt = title + ' ' + pl.gallery;
-  const imgSrc = p.image || 'https://placehold.co/800x1067/141414/ffffff?text=' + encodeURIComponent(title);
 
-  const galleryItems = Array.isArray(p.gallery) && p.gallery.length
-    ? p.gallery.map(function (g) {
-        return (
-          '<figure class="gallery__item">' +
-          '<a class="gallery__link" href="' + g.src + '" data-lightbox="' + p.slug + '" data-caption="' + esc(g.caption || '') + '">' +
-          '<img src="' + g.src + '" alt="' + esc(g.caption || title) + '" loading="lazy" />' +
-          '</a>' +
-          '</figure>'
-        );
-      }).join('')
+  // Обложка: у части спектаклей это ссылка на старый сайт, у части — наш
+  // локальный файл (путь без базы, withBase() его дополняет).
+  const imgPath = p.image || '';
+  const imgSrc = /^https?:\/\//.test(imgPath) ? imgPath : withBase('/' + imgPath);
+  const jsonldImage = /^https?:\/\//.test(imgPath) ? imgPath : siteImg(imgPath, isEn);
+  const gallery = galleries[p.slug] || null;
+  const photos = gallery && gallery.photos ? gallery.photos : [];
+
+  // Галерея: сетка из превью, лайтбокс открывает полный размер. Если
+  // фотографий нет (16 спектаклей без архива) — показываем одну афишу.
+  const photoLabel = isEn ? 'Production photograph' : 'Снимок спектакля';
+  const sketchLabel = isEn ? 'Set design sketch' : 'Эскиз декораций';
+  const galleryItems = photos.length
+    ? photos
+        .map(function (ph) {
+          const isSketch = ph.kind === 'makET';
+          // Подпись в лайтбоксе — только когда она есть: у съёмок
+          // постановки показывать нечего, пустая строка лишняя.
+          const caption = isSketch ? sketchLabel : (ph.caption || '');
+          const alt = (isSketch ? sketchLabel : photoLabel) + ' — ' + title;
+          return (
+            '<figure class="gallery__item">' +
+            '<a class="gallery__link" href="' + withBase('/' + ph.full) + '" data-lightbox="' + p.slug + '" data-caption="' + esc(caption) + '">' +
+            '<img src="' + withBase('/' + ph.thumb) + '" alt="' + esc(alt) + '" loading="lazy" />' +
+            '</a>' +
+            '</figure>'
+          );
+        })
+        .join('')
     : (
         '<figure class="gallery__item">' +
         '<a class="gallery__link" href="' + imgSrc + '" data-lightbox="' + p.slug + '" data-caption="' + esc(title) + '">' +
@@ -217,12 +242,12 @@ const lead = hasDescription ? descText[0] : '';
     'name': title,
     'author': { '@type': 'Person', 'name': isEn ? 'Pavel Pronin' : 'Павел Пронин' },
     'url': site + url,
-    'image': imgSrc,
+    'image': jsonldImage || undefined,
     'dateCreated': p.year ? String(p.year) : undefined
   };
 
-  let t = 'Театр', o = 'О спектакле', info = 'Сведения о постановке', pr = 'Премьера', cityLabel = 'Город', cr = 'Творческая команда', aw = 'Фестивали и награды', prs = 'Пресса', vid = 'Видео', ph = 'Фотографии';
-  if (isEn) { t = 'Theatre'; o = 'About the play'; info = 'Production details'; pr = 'Premiere'; cityLabel = 'City'; cr = 'Creative team'; aw = 'Festivals and awards'; prs = 'Press'; vid = 'Video'; ph = 'Photos'; }
+  let t = 'Театр', o = 'О спектакле', info = 'Сведения о постановке', pr = 'Премьера', cityLabel = 'Город', cr = 'Творческая команда', aw = 'Фестивали и награды', prs = 'Пресса', vid = 'Видео', ph = 'Фотографии', phHint = 'Снимки постановки и эскизы декораций';
+  if (isEn) { t = 'Theatre'; o = 'About the play'; info = 'Production details'; pr = 'Premiere'; cityLabel = 'City'; cr = 'Creative team'; aw = 'Festivals and awards'; prs = 'Press'; vid = 'Video'; ph = 'Photos'; phHint = 'Production photographs and set design sketches'; }
 
   const body =
     '<section class="section perf-page__head">' +
@@ -276,10 +301,13 @@ const lead = hasDescription ? descText[0] : '';
     '<div class="perf-spec__value">' + videos + '</div>' +
     '</div>' +
 
-    '<div class="perf-page__section animate-on-scroll">' +
-    '<h2 class="perf-page__section-title">' + ph + '</h2>' +
-    '<div class="gallery">' + galleryItems + '</div>' +
-    '</div>' +
+    (photos.length
+      ? '<div class="perf-page__section animate-on-scroll">' +
+        '<h2 class="perf-page__section-title">' + ph + '</h2>' +
+        '<p class="perf-page__hint">' + esc(phHint) + '</p>' +
+        '<div class="gallery">' + galleryItems + '</div>' +
+        '</div>'
+      : '') +
     '</div>' +
     '</section>';
 
@@ -290,7 +318,7 @@ const lead = hasDescription ? descText[0] : '';
     title: title + (isEn ? ' — Pavel Pronin' : ' — Павел Пронин'),
     description: metaDescription,
     ogDescription: theater,
-    ogImage: imgSrc,
+    ogImage: jsonldImage || undefined,
     ogType: 'article',
     canonical: url,
     jsonld,

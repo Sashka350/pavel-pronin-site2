@@ -10,10 +10,17 @@
  *   theater — театр
  *   year    — год премьеры
  *   status  — 'live' (идёт в репертуаре) | 'archive' (архив)
- *   image   — постер/фото (пока URL со старого сайта, заменим на реальные фото)
+ *   image   — обложка (афиша). У 11 спектаклей это локальные файлы из
+ *             `public/images/performances/<slug>/poster.webp`, собранные
+ *             из архива заказчика скриптом `scripts/import-photos.py`.
+ *             У остальных 17 пока ссылка со старого сайта — заменим, когда
+ *             Паша пришлёт афиши. Путь задаём БЕЗ базового пути и без
+ *             ведущего слэша: BASE подставляет каталог (import.meta.env.BASE_URL),
+ *             генератор страниц — withBase().
  *
- * Описания, эпиграфы, составы команды, прессу и видео здесь НЕ держат:
- * они лежат в performances-archive.js (собрано из Материалы для сайта.zip),
+ * Описания, эпиграфы, составы команды, прессу, видео и фотографии здесь
+ * НЕ держат: тексты лежат в performances-archive.js, снимки постановки —
+ * в performances-gallery.js (оба собраны из Материалы для сайта.zip),
  * а страницы собирает scripts/generate-performances.mjs.
  *
  * ВАЖНО: 12 спектаклей из архива описаны и датированы по документам
@@ -173,7 +180,7 @@ export const performances = [
     theater: 'Учебный театр ГИТИС',
     year: 2020,
     status: 'archive',
-    image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1623658351491-GP34L5Y5KMMQAQC0E5J9/Varshavskaya_afisha.jpg'
+    image: 'images/performances/warsawmelody/poster.webp'
   },
   {
     slug: 'nutcracker',
@@ -182,7 +189,7 @@ export const performances = [
     theater: 'Севастопольский академический драматический театр имени А.В. Луначарского',
     year: 2019,
     status: 'archive',
-    image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1623656506184-1U9LLJZUF1L0X36WZZKP/et-z9DIaS1E.jpg'
+    image: 'images/performances/nutcracker/poster.webp'
   },
   {
     slug: 'timurandhisteam',
@@ -191,7 +198,7 @@ export const performances = [
     theater: 'Екатеринбургский театр юного зрителя',
     year: 2019,
     status: 'archive',
-    image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1623330167266-L29DRJF5BGXNLLDGK3LI/IMG_7611.jpg'
+    image: 'images/performances/timurandhisteam/poster.webp'
   },
   {
     slug: 'backtomurder',
@@ -200,7 +207,7 @@ export const performances = [
     theater: 'Драматический театр «Колесо» им. н.а. России Г.Б. Дроздова',
     year: 2019,
     status: 'archive',
-    image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1623224836454-2WD04XTNHQW6K1F21U5I/1+1.jpg'
+    image: 'images/performances/backtomurder/poster.webp'
   },
   {
     slug: 'starboy',
@@ -218,7 +225,7 @@ export const performances = [
     theater: 'Драматический театр «Колесо» им. н.а. России Г.Б. Дроздова',
     year: 2018,
     status: 'archive',
-    image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1623218243321-OQAD9EHTISME274A817A/IMG_4596.JPG'
+    image: 'images/performances/parodist/poster.webp'
   },
   {
     slug: 'acityinlove',
@@ -227,7 +234,7 @@ export const performances = [
     theater: 'Драматический театр «Колесо» им. н.а. России Г.Б. Дроздова',
     year: 2018,
     status: 'archive',
-    image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1623152919120-WUTKLYC97ZQZS9PDS0GA/IMG_9816.jpg'
+    image: 'images/performances/acityinlove/poster.webp'
   },
   {
     slug: 'comedyoferrors',
@@ -236,7 +243,7 @@ export const performances = [
     theater: 'Национальный драматический театр им. Б. Басангова',
     year: 2017,
     status: 'archive',
-    image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1623150701538-Y5SORLFSN7E1VEXYSM37/IMG_8872.JPEG'
+    image: 'images/performances/comedyoferrors/poster.webp'
   },
   {
     slug: 'zoikasappartament',
@@ -245,7 +252,7 @@ export const performances = [
     theater: 'Национальный академический драматический театр им. Горького',
     year: 2017,
     status: 'archive',
-    image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1623131627423-ZP52CYJGF2AGZLL39TG0/IMG_8727.PNG'
+    image: 'images/performances/zoikasappartament/poster.webp'
   },
   {
     slug: 'intheceilingthestarsareshining',
@@ -254,7 +261,7 @@ export const performances = [
     theater: 'Краснодарский Молодёжный театр',
     year: 2017,
     status: 'archive',
-    image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1623130219628-O3EIVIPWVWO95M0JK9A8/IMG_4892.JPG'
+    image: 'images/performances/intheceilingthestarsareshining/poster.webp'
   },
   {
     slug: 'gagarinway',
@@ -263,7 +270,7 @@ export const performances = [
     theater: 'Русский театр Эстонии',
     year: 2017,
     status: 'archive',
-    image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1623053792042-OA554BPO7HULS0N2EKA1/555x800piletilevi2veneteater.jpg__800x1200_q85_crop_subsampling-2.jpg'
+    image: 'images/performances/gagarinway/poster.webp'
   },
   {
     slug: 'boyhood',
@@ -272,6 +279,6 @@ export const performances = [
     theater: 'Режиссёрский факультет ГИТИС',
     year: 2016,
     status: 'archive',
-    image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1623823516163-B03T2HH1PNB0M4RBOCOA/IMG_0284.PNG'
+    image: 'images/performances/boyhood/poster.webp'
   }
 ];

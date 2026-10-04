@@ -8,6 +8,18 @@ import { performances } from '../data/performances-data.js';
 
 const BASE = import.meta.env.BASE_URL;
 
+/**
+ * Путь к картинке. У части спектаклей это ссылка на старый сайт
+ * (images.squarespace-cdn.com), у части — наш локальный файл
+ * (images/performances/<slug>/poster.webp). Локальный дополняем базой,
+ * внешний оставляем как есть.
+ */
+function imgSrc(url) {
+  if (!url) return '';
+  if (/^https?:\/\//.test(url)) return url;
+  return BASE + url;
+}
+
 (function () {
   const grid = document.querySelector('[data-catalog-grid]');
   if (!grid) return;
@@ -38,7 +50,7 @@ const BASE = import.meta.env.BASE_URL;
     return (
       '<a href="' + BASE + 'performances/' + p.slug + '/" class="perf-card animate-on-scroll">' +
       '<div class="perf-card__media">' +
-      '<img src="' + p.image + '" alt="' + p.title + ' — афиша" loading="lazy" />' +
+      '<img src="' + imgSrc(p.image) + '" alt="' + p.title + ' — афиша" loading="lazy" />' +
       '</div>' +
       '<div class="perf-card__body">' +
       '<h3 class="perf-card__title">' + p.title + '</h3>' +

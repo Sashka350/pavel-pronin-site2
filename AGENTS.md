@@ -65,11 +65,23 @@
   файлов режиссёра (`.docx` из `Материалы для сайта.zip`) в тексты данных.
   Запускаются вручную, только когда заказчик прислал новые файлы; перезаписывают
   свои файлы в `src/data/` целиком.
+- `scripts/import-photos.py` — перенос фотографий и афиш из того же архива в
+  `public/images/performances/`. **На Python** (Pillow): пережать JPEG без
+  потери качества на чистом Node нельзя, а ставить `sharp` ради одноразовой
+  операции не стали. Запуск: `python scripts/import-photos.py` из корня.
+  Отчёт о выбранных и пропущенных файлах — `фото-отчёт.txt` в корне.
 - `scripts/check-responsive.mjs` — проверка адаптива на опубликованном сайте.
-- `src/data/` — данные контента (performances, performances-archive, pedagogy,
-  news, inscenizations и их `-en`-версии). В шапке каждого файла — комментарий,
-  что означает поле. `performances-archive-en.js` — перевод текстов режиссёра
-  по `slug`, зеркалит `performances-archive.js` (те же ключи и порядки).
+- `src/data/` — данные контента (performances, performances-archive,
+  performances-gallery, pedagogy, news, inscenizations и их `-en`-версии). В шапке
+  каждого файла — комментарий, что означает поле. `performances-archive-en.js` —
+  перевод текстов режиссёра по `slug`, зеркалит `performances-archive.js` (те же
+  ключи и порядки). `performances-gallery.js` — фотографии и афиши: `poster` +
+  `photos[] { full, thumb, kind, caption }`.
+- `public/images/performances/<slug>/` — фотографии спектаклей (в git): афиша
+  `poster.webp`, снимки `gallery/NN.webp` и превью `gallery/NN-sm.webp`.
+  **В реестре `performances-data.js` поле `image` бывает двух видов:** внешняя
+  ссылка squarespace или локальный путь без базы и без ведущего слэша. Поэтому
+  в JS — `imgSrc()`, в генераторе — `withBase()`, для `og:image` — `siteImg()`.
 - `src/css/` — стили (variables, base, layout, components, pages).
 - `src/js/` — скрипты (catalog, pedagogy, news-feed, news, gallery, theme, nav).
 - `src/main.js` — входной JS.

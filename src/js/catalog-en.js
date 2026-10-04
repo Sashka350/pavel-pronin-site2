@@ -8,6 +8,13 @@ import { performancesEn } from '../data/performances-en.js';
 
 const BASE = import.meta.env.BASE_URL;
 
+/** Локальный путь дополняем базой, внешнюю ссылку оставляем как есть. */
+function imgSrc(url) {
+  if (!url) return '';
+  if (/^https?:\/\//.test(url)) return url;
+  return BASE + url;
+}
+
 (function () {
   const grid = document.querySelector('[data-catalog-grid]');
   if (!grid) return;
@@ -38,7 +45,7 @@ const BASE = import.meta.env.BASE_URL;
     return (
       '<a href="' + BASE + 'en/performances/' + p.slug + '/" class="perf-card animate-on-scroll">' +
       '<div class="perf-card__media">' +
-      '<img src="' + p.image + '" alt="' + title + ' — poster" loading="lazy" />' +
+      '<img src="' + imgSrc(p.image) + '" alt="' + title + ' — poster" loading="lazy" />' +
       '</div>' +
       '<div class="perf-card__body">' +
       '<h3 class="perf-card__title">' + title + '</h3>' +
