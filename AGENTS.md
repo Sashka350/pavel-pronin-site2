@@ -24,9 +24,9 @@
 ## Публикация
 
 - Опубликованный сайт-источник: https://sashka350.github.io/pavel-pronin-site1/ — эту копию не изменяем.
-- Целевой репозиторий: https://github.com/Sashka350/pavel-pronin-site2 (пока не создан).
-- Целевой адрес GitHub Pages: https://sashka350.github.io/pavel-pronin-site2/ (после создания репозитория и публикации).
-- Автодеплой после настройки GitHub Pages: push в `main` → GitHub Actions собирает и публикует на Pages.
+- Целевой репозиторий: https://github.com/Sashka350/pavel-pronin-site2 (public).
+- Публичный сайт: https://sashka350.github.io/pavel-pronin-site2/
+- Автодеплой: push в `main` → GitHub Actions собирает и публикует на Pages.
 - Базовый путь = `/pavel-pronin-site2/` (задан в `vite.config.js` через `BASE_PATH`).
   В коде используй `import.meta.env.BASE_URL` (JS) и `withBase()` (генераторы).
   НЕ вписывай вручную жёсткие пути `/pavel-pronin-site2/` в новые места —
