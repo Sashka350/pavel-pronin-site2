@@ -239,7 +239,11 @@ function parseLinks(lines, warnings) {
     }
     let label = line.replace(m[0], '').replace(/\s*\/\/\s*$/, '').replace(/\s{2,}/g, ' ').trim();
     if (!label) label = pending || '';
-    out.push({ label: label, url: m[0] });
+    // Ссылка может прийти с utm-метками (в файлах режиссёра есть, в одной —
+    // с utm_referrer на старый Squarespace). На сайте они лишние, особенно
+    // если ссылку потом перешлют.
+    const clean = m[0].replace(/[?&](utm_[^=]+=[^&#]*|utm_referrer=[^&#]*)/gi, '').replace(/[?&]$/, '');
+    out.push({ label: label, url: clean });
     pending = null;
   });
   lines.filter((l) => !URL_RE.test(l)).forEach((l) => {

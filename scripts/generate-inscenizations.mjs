@@ -22,7 +22,7 @@ import { mkdirSync, writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { inscenizations } from '../src/data/inscenizations-data.js';
-import { esc, getAssets, wrapHtml, withBase } from './page-template.js';
+import { esc, getAssets, wrapHtml, withBase, SITE } from './page-template.js';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const projectRoot = join(root, '..');
@@ -294,6 +294,7 @@ function page(item) {
     enPath: '/en/inscenizations/',
     title: title + ' — Инсценировка · Павел Пронин',
     description: title + '. Инсценировка Павла Пронина ' + author + '. Отрывок для чтения.',
+    ogImage: SITE + '/images/hero-bg.jpg',
     canonical: url,
     body,
     cssHref,

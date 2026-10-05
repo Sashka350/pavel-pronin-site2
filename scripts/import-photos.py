@@ -89,8 +89,11 @@ SLUGS = {
 
 FULL_MAX = 1600
 SMALL_MAX = 600
-POSTER_MAX = 1400
+POSTER_MAX = 1200
 QUALITY = 82
+# Афиша — обложка страницы спектакля и карточка каталога, она в первом экране.
+# На шаге 11 замерили: 1400px q82 давали до 323 КБ, это 84% веса страницы.
+POSTER_QUALITY = 74
 
 # Ниже этого размера по короткой стороне кадр в галерее не берём: в сетке
 # он всё равно показан мелким, а в лайтбоксе мылит. 640×426 и750×499
@@ -148,14 +151,14 @@ def fit(im, max_side):
     return im.resize((round(w * scale), round(h * scale)), Image.LANCZOS)
 
 
-def save_webp(im, path, max_side):
+def save_webp(im, path, max_side, quality=QUALITY):
     im = ImageOps.exif_transpose(im)
     if im.mode not in ('RGB', 'RGBA'):
         im = im.convert('RGB')
     if im.mode == 'RGBA':
-        im.save(path, 'WEBP', quality=QUALITY, method=6)
+        im.save(path, 'WEBP', quality=quality, method=6)
     else:
-        fit(im, max_side).save(path, 'WEBP', quality=QUALITY, method=6)
+        fit(im, max_side).save(path, 'WEBP', quality=quality, method=6)
     return os.path.getsize(path)
 
 
@@ -214,7 +217,7 @@ def main():
             else:
                 im = Image.open(io.BytesIO(z.read(found)))
                 poster_crc = found.CRC
-                save_webp(im, os.path.join(slug_dir, 'poster.webp'), POSTER_MAX)
+                save_webp(im, os.path.join(slug_dir, 'poster.webp'), POSTER_MAX, POSTER_QUALITY)
                 poster_rel = 'images/performances/%s/poster.webp' % num
                 report.append('%s  афиша  %sx%s  %s' % (num, im.size[0], im.size[1], want))
 

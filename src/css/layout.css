@@ -193,12 +193,26 @@
   flex-direction: column;
   justify-content: center;
   gap: 5px;
+  position: relative;
   width: 40px;
   height: 40px;
   padding: 8px;
   border-radius: var(--radius);
   background-color: var(--bg-tertiary);
   border: 1px solid var(--border);
+}
+
+/* Палец попадает в область 44×44, хотя сама кнопка 40×40: на узких экранах
+   флекс сжимает её ещё сильнее. Расширяем область клика в ::after, вёрстка
+   шапки не меняется. В промежутке между кнопками 8px — 4px с каждой стороны
+   зоны не пересекаются. */
+.burger::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  bottom: -4px;
+  left: -4px;
 }
 
 .burger span {

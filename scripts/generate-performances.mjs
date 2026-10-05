@@ -13,7 +13,7 @@ import { performancesArchive } from '../src/data/performances-archive.js';
 import { performancesArchiveEn } from '../src/data/performances-archive-en.js';
 import { galleries } from '../src/data/performances-gallery.js';
 import { esc, getAssets, wrapHtml, withBase, SITE } from './page-template.js';
-import { wrapHtml as wrapHtmlEn, SITE as SITE_EN } from './page-template-en.js';
+import { wrapHtml as wrapHtmlEn } from './page-template-en.js';
 
 const root = dirname(fileURLToPath(import.meta.url));
 const projectRoot = join(root, '..');
@@ -38,6 +38,32 @@ const PLACEHOLDER_EN = {
   premiere: 'To be confirmed.',
   gallery: '— poster'
 };
+
+/**
+ * Названия, которые встречаются в реестре больше одного раза: «Ретро» есть и в
+ * Хабаровске, и в Екатеринбурге. Страницы с одинаковым <title> конкурируют
+ * друг с другом, поэтому для таких добавляем театр и год — по visible-заголовку
+ * на странице ничего не меняется.
+ */
+function repeatedTitles(list, pick) {
+  const count = new Map();
+  for (const item of list) {
+    const key = pick(item);
+    count.set(key, (count.get(key) || 0) + 1);
+  }
+  return new Set([...count.keys()].filter((k) => count.get(k) > 1));
+}
+
+const REPEATED_RU = repeatedTitles(performances, (p) => p.title);
+const REPEATED_EN = repeatedTitles(performances, (p) => (performancesEn[p.slug] || {}).title || p.title);
+
+/** <title> страницы спектакля: уникальный и не длиннее ~70 знаков. */
+function metaTitle(title, theater, year, isEn) {
+  const suffix = isEn ? ' — Pavel Pronin' : ' — Павел Пронин';
+  const repeated = (isEn ? REPEATED_EN : REPEATED_RU).has(title);
+  const where = repeated ? title + ' — ' + theater + (year ? ', ' + year : '') : title + suffix;
+  return where.length > 70 ? where.replace(suffix, '') : where + (repeated ? suffix : '');
+}
 
 /** Список строк ссылок. */
 function linkList(items, emptyLabel) {
@@ -97,10 +123,13 @@ function text(slug, isEn, a, aEn, field) {
   return en;
 }
 
-/** Абсолютный адрес картинки — для og:image и JSON-LD. */
-function siteImg(relPath, isEn) {
+/**
+ * Абсолютный адрес картинки — для og:image и JSON-LD. Картинки общие для двух
+ * языков (в `en/` их нет), поэтому адрес всегда от корня сайта.
+ */
+function siteImg(relPath) {
   if (!relPath) return '';
-  return (isEn ? SITE_EN : SITE) + '/' + relPath;
+  return SITE + '/' + relPath;
 }
 
 function page(p, lang) {
@@ -123,7 +152,7 @@ function page(p, lang) {
   // локальный файл (путь без базы, withBase() его дополняет).
   const imgPath = p.image || '';
   const imgSrc = /^https?:\/\//.test(imgPath) ? imgPath : withBase('/' + imgPath);
-  const jsonldImage = /^https?:\/\//.test(imgPath) ? imgPath : siteImg(imgPath, isEn);
+  const jsonldImage = /^https?:\/\//.test(imgPath) ? imgPath : siteImg(imgPath);
   const gallery = galleries[p.slug] || null;
   const photos = gallery && gallery.photos ? gallery.photos : [];
 
@@ -220,7 +249,7 @@ function page(p, lang) {
     ? '<ul>' + awardsText.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>'
     : '';
 
-  const site = isEn ? SITE_EN : SITE;
+  const site = SITE;
   // Лид описания режиссёра идёт в meta description: «Театр + Режиссёр» мало,
   // а первые слова описания объясняют, что за работа. Обрезаем по границе
   // слова, чтобы не оставить обрывок.
@@ -315,7 +344,7 @@ const lead = hasDescription ? descText[0] : '';
     active: 'performances',
     enPath: '/en/performances/' + p.slug + '/',
     ruPath: isEn ? '/performances/' + p.slug + '/' : undefined,
-    title: title + (isEn ? ' — Pavel Pronin' : ' — Павел Пронин'),
+    title: metaTitle(title, theater, p.year, isEn),
     description: metaDescription,
     ogDescription: theater,
     ogImage: jsonldImage || undefined,
@@ -362,7 +391,7 @@ try {
   const { pedagogyProjects } = await import('../src/data/pedagogy-data.js');
   pedagogyProjects.forEach(function (pr) {
     if (pr.slug) pedagogyPaths.add(SITE + '/pedagogy/' + pr.slug + '/');
-    if (pr.slug) pedagogyPathsEn.add(SITE_EN + '/pedagogy/' + pr.slug + '/');
+    if (pr.slug) pedagogyPathsEn.add(SITE + '/en/pedagogy/' + pr.slug + '/');
   });
 } catch (e) {
   console.error('Не удалось прочитать педагогические проекты для sitemap:', e.message);
@@ -374,7 +403,7 @@ try {
   const { posts } = await import('../src/data/news-data.js');
   posts.forEach(function (n) {
     if (n.slug) newsPaths.add(SITE + '/news/' + n.slug + '/');
-    if (n.slug) newsPathsEn.add(SITE_EN + '/news/' + n.slug + '/');
+    if (n.slug) newsPathsEn.add(SITE + '/en/news/' + n.slug + '/');
   });
 } catch (e) {
   console.error('Не удалось прочитать новости для sitemap:', e.message);
@@ -422,7 +451,7 @@ performances.forEach(function (p) {
     priority: p.status === 'live' ? '0.9' : '0.6'
   });
   urls.push({
-    loc: SITE_EN + '/performances/' + p.slug + '/',
+    loc: SITE + '/en/performances/' + p.slug + '/',
     lastmod: today,
     priority: p.status === 'live' ? '0.8' : '0.5'
   });

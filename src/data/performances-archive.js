@@ -388,7 +388,7 @@ export const performancesArchive = {
       },
       {
         label: 'В театре «Колесо» прошла премьера спектакля «Пародист» // Новости Тольятти от 15.02.2019',
-        url: 'https://augustnews.ru/v-teatre-koleso-proshla-premera-spektaklya-parodist/?utm_referrer=https%3A%2F%2Fimpala-bamboo-4jmw.squarespace.com%2F'
+        url: 'https://augustnews.ru/v-teatre-koleso-proshla-premera-spektaklya-parodist/'
       }
     ],
     videos: [
@@ -665,7 +665,7 @@ export const performancesArchive = {
     press: [
       {
         label: 'Учебный театр ГИТИС представит премьеру спектакля «Варшавская мелодия» по пьесе Леонида Зорина // ArtMoskovia.ru от 30.01.2020',
-        url: 'https://artmoskovia.ru/uchebnyj-teatr-gitis-predsatvlyaet-premeru-spektaklya-varshavskaya-melodiya-po-pese-leonida-zorina.html?utm_medium=desktop&utm_source=yxnews'
+        url: 'https://artmoskovia.ru/uchebnyj-teatr-gitis-predsatvlyaet-premeru-spektaklya-varshavskaya-melodiya-po-pese-leonida-zorina.html'
       },
       {
         label: '1 февраля – премьера в Учебном театре // Сайт ГИТИС от 28.01.2020',

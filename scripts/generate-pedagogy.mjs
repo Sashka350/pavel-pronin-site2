@@ -18,6 +18,30 @@ const outDir = join(projectRoot, 'dist');
 
 const { cssHref, jsSrc } = getAssets(outDir);
 
+/**
+ * Одинаковые названия проектов (ГИТИС 2016 и ГИТИС 2024) дают одинаковые
+ * <title> и meta description — страницы конкурируют друг с другом. Для таких
+ * дописываем годы. Заголовок на самой странице не трогаем.
+ */
+function repeatedTitles(list, pick) {
+  const count = new Map();
+  for (const item of list) {
+    const key = pick(item);
+    count.set(key, (count.get(key) || 0) + 1);
+  }
+  return new Set([...count.keys()].filter((k) => count.get(k) > 1));
+}
+
+/** «2016 — 2018» → «2016–2018», «2024 — н.вр.» → «2024–». */
+function years(period) {
+  const found = String(period || '').match(/\d{4}/g);
+  if (!found) return '';
+  return found.length > 1 ? found[0] + '–' + found[1] : found[0] + '–';
+}
+
+const REPEATED_RU = repeatedTitles(pedagogyProjects, (p) => p.title);
+const REPEATED_EN = repeatedTitles(pedagogyProjects, (p) => (pedagogyProjectsEn[p.slug] || {}).title || p.title);
+
 function page(p, lang) {
   if (!p.slug) return null;
   const isEn = lang === 'en';
@@ -87,14 +111,22 @@ function page(p, lang) {
     '</div>' +
     '</section>';
 
+  // Часть названий проектов длинная, а <title> должен быть уникальным и
+  // помещаться в выдачу — при повторах добавляем годы, при длине убираем хвост.
+  const suffix = isEn ? ' — Pedagogy · Pavel Pronin' : ' — Педагогика · Павел Пронин';
+  const repeated = (isEn ? REPEATED_EN : REPEATED_RU).has(title);
+  const span = repeated ? years(period) : '';
+  const withSpan = span ? title + ' (' + span + ')' : title;
+  const metaTitle = (withSpan + suffix).length > 70 ? withSpan : withSpan + suffix;
+
   const opts = {
     active: 'pedagogy',
     enPath: '/en/pedagogy/',
     ruPath: isEn ? '/pedagogy/' + p.slug + '/' : undefined,
-    title: title + (isEn ? ' — Pedagogy · Pavel Pronin' : ' — Педагогика · Павел Пронин'),
+    title: metaTitle,
     description: title + (isEn
-      ? '. Pedagogical project of Pavel Pronin.' + (place ? ' ' + place + '.' : '')
-      : '. Педагогический проект Павла Пронина.' + (place ? ' ' + place + '.' : '')),
+      ? '. Pedagogical project of Pavel Pronin.' + (span ? ' ' + span + '.' : '') + (place ? ' ' + place + '.' : '')
+      : '. Педагогический проект Павла Пронина.' + (span ? ' ' + span + '.' : '') + (place ? ' ' + place + '.' : '')),
     ogImage: imgSrc,
     canonical: url,
     body,
