@@ -78,6 +78,8 @@ const ORIGIN = LIVE
   : `http://127.0.0.1:${PORT}`;
 const PREFIX = LIVE ? ORIGIN : ORIGIN + BASE.replace(/\/$/, '');
 const toUrl = (path) => PREFIX + path;
+// Домен без базового пути — по нему понимаем, «своя» ссылка или внешняя.
+const SITE_ORIGIN = new URL(PREFIX).origin;
 
 const OUT_DIR = join(tmpdir(), 'opencode', 'pageshots');
 if (SHOTS) mkdirSync(OUT_DIR, { recursive: true });
@@ -567,7 +569,7 @@ async function main() {
 
     const page = await browser.newPage();
     await page.setViewport({ width: WIDTHS[0], height: 900, deviceScaleFactor: 1 });
-    const log = collectConsole(page, ORIGIN);
+    const log = collectConsole(page, SITE_ORIGIN);
 
     try {
       await page.goto(url, { waitUntil: 'load', timeout: 60000 });
@@ -616,17 +618,17 @@ async function main() {
           }
         })
         .filter(Boolean);
-      const internal = [...new Set(absolute.filter((u) => u.origin === ORIGIN).map((u) => u.pathname))];
+      const internal = [...new Set(absolute.filter((u) => u.origin === SITE_ORIGIN).map((u) => u.href))];
       if (has('external')) {
         for (const u of absolute) {
-          if (u.origin !== ORIGIN) externalUrls.add(u.href);
+          if (u.origin !== SITE_ORIGIN) externalUrls.add(u.href);
         }
       }
       const bad = [];
-      for (const p of internal) {
-        if (!linkCache.has(p)) linkCache.set(p, await checkLink(ORIGIN + p));
-        const st = linkCache.get(p);
-        if (st !== 200) bad.push(p + ' → ' + st);
+      for (const href of internal) {
+        if (!linkCache.has(href)) linkCache.set(href, await checkLink(href));
+        const st = linkCache.get(href);
+        if (st !== 200) bad.push(href.replace(SITE_ORIGIN, '') + ' → ' + st);
       }
       if (bad.length) report('links', path, 'битых внутренних ссылок: ' + bad.join(', '));
     }
