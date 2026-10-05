@@ -256,15 +256,34 @@
     border-color var(--transition);
 }
 
-a.contact-card:hover {
+a.contact-card:hover,
+button.contact-card:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow);
   border-color: var(--accent);
   color: inherit;
 }
 
-a.contact-card:active {
+a.contact-card:active,
+button.contact-card:active {
   transform: scale(0.98);
+}
+
+button.contact-card {
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+button.contact-card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.contact-card--copy.is-copied {
+  border-color: var(--accent);
 }
 
 .contact-card__icon {

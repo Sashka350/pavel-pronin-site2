@@ -14,6 +14,7 @@ import './js/theme.js';
 import './js/nav.js';
 import './js/scroll-anim.js';
 import './js/announcements.js';
+import './js/copy-email.js';
 import './js/gallery.js';
 import './js/type-cycle.js';
 import './js/insc-reader.js';

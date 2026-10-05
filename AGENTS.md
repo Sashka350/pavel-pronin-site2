@@ -97,7 +97,8 @@
   ссылка squarespace или локальный путь без базы и без ведущего слэша. Поэтому
   в JS — `imgSrc()`, в генераторе — `withBase()`, для `og:image` — `siteImg()`.
 - `src/css/` — стили (variables, base, layout, components, pages).
-- `src/js/` — скрипты (catalog, pedagogy, news-feed, news, gallery, theme, nav).
+- `src/js/` — скрипты (catalog, pedagogy, news-feed, news, gallery, theme, nav,
+  copy-email).
 - `src/main.js` — входной JS.
 - `ЧЕК-ЛИСТ.md` — статус проекта; обновляй при завершении работ.
 - `ПРОДОЛЖИТЬ.md` — передача между сессиями: статус по шагам ТЗ, что осталось,
