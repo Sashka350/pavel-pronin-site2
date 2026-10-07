@@ -46,15 +46,16 @@
 
 - Опубликованный сайт-источник: https://sashka350.github.io/pavel-pronin-site1/ — эту копию не изменяем.
 - Целевой репозиторий: https://github.com/Sashka350/pavel-pronin-site2 (public).
-- Публичный сайт: https://sashka350.github.io/pavel-pronin-site2/
+- Текущий адрес GitHub Pages: https://sashka350.github.io/pavel-pronin-site2/
+- Целевой домен: https://pavelpronin.art/ (добавлен в GitHub Pages; распространение DNS проверяется).
 - Автодеплой: push в `main` → GitHub Actions собирает и публикует на Pages.
-- Базовый путь = `/pavel-pronin-site2/` (задан в `vite.config.js` через `BASE_PATH`).
+- Основной базовый путь = `/` (для `pavelpronin.art`). Для адреса GitHub Pages репозитория используйте `BASE_PATH=/pavel-pronin-site2/`.
   В коде используй `import.meta.env.BASE_URL` (JS) и `withBase()` (генераторы).
   НЕ вписывай вручную жёсткие пути `/pavel-pronin-site2/` в новые места —
   используй переменные базы. В статических HTML внутренние ссылки уже
   префиксованы base-путем.
-- Адрес сайта для canonical/og/sitemap задаётся через `SITE_URL` в
-  `scripts/page-template.js` (в этой копии по умолчанию https://sashka350.github.io/pavel-pronin-site2).
+- Адрес сайта для canonical/og/sitemap задаётся через `SITE_URL` в workflow
+  (https://pavelpronin.art); генераторы читают его в `scripts/page-template.js`.
 
 ## Важные пути к файлам
 

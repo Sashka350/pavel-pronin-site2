@@ -30,7 +30,7 @@
  *   --shots                                скриншоты в %TEMP%\opencode\pageshots
  *   --port=4411
  *
- * Переменные окружения: WIDTHS, CHECKS, PAGES, PORT, SITE_URL, BROWSER.
+ * Переменные окружения: WIDTHS, CHECKS, PAGES, PORT, SITE_URL, BASE_PATH, BROWSER.
  * Код возврата ненулевой, если найдены проблемы.
  */
 import { createServer } from 'node:http';
@@ -66,7 +66,7 @@ const LIVE = Boolean(arg('live', null));
 const PORT = Number(arg('port', process.env.PORT || '4411'));
 const BROWSER = arg('browser', process.env.BROWSER || 'auto');
 
-const BASE = readBaseFromViteConfig();
+const BASE = process.env.BASE_PATH || readBaseFromViteConfig();
 // Пути страниц в списке — от корня сборки, без базового префикса.
 // В --live адрес сайта уже включает базу (SITE_URL можно задать с ней или без).
 const ORIGIN = LIVE

@@ -1,13 +1,24 @@
 import { defineConfig } from 'vite';
 import { fileURLToPath, URL } from 'node:url';
 
-// Базовый путь для GitHub Pages суб-пути (https://<user>.github.io/pavel-pronin-site2/).
-// Когда появится кастомный домен (pavelpronin.me) — задайте BASE_PATH=/ .
-const basePath = process.env.BASE_PATH || '/pavel-pronin-site2/';
+// Основной сайт работает на корне кастомного домена.
+// Для адреса GitHub Pages репозитория задайте BASE_PATH=/pavel-pronin-site2/.
+const basePath = process.env.BASE_PATH || '/';
 
 export default defineConfig({
   root: '.',
   base: basePath,
+  plugins: [
+    {
+      name: 'strip-project-pages-prefix-for-custom-domain',
+      transformIndexHtml: {
+        order: 'pre',
+        handler(html) {
+          return basePath === '/' ? html.replaceAll('/pavel-pronin-site2/', '/') : html;
+        }
+      }
+    }
+  ],
   build: {
     outDir: 'dist',
     assetsDir: 'assets',

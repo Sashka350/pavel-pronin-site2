@@ -1,18 +1,20 @@
 САЙТ ПАВЕЛА ПРОНИНА — ПУБЛИЧНЫЙ АДРЕС
-Обновлено: 01.09.2026
+Обновлено: 07.10.2026
 
-Публичный адрес сайта (GitHub Pages):
-https://sashka350.github.io/pavel-pronin-site/
+Текущий адрес GitHub Pages:
+https://sashka350.github.io/pavel-pronin-site2/
+
+Целевой адрес после подключения купленного домена:
+https://pavelpronin.art/
 
 Репозиторий (исходный код, публичный):
-https://github.com/Sashka350/pavel-pronin-site
+https://github.com/Sashka350/pavel-pronin-site2
 
-Как публиковать:
-- Любой push в ветку main репозитория автоматически собирает сайт
-  и публикует его на GitHub Pages (GitHub Actions).
+Автопубликация:
+- Push в ветку main автоматически запускает GitHub Actions.
+- Workflow собирает сайт с корневым путём и адресом https://pavelpronin.art/.
 
-Замечание про будущий домен pavelpronin.me:
-- Сейчас сайт живёт на под-пути /pavel-pronin-site/. Когда появится
-  кастомный домен pavelpronin.me, в vite.config.js и scripts/page-template.js
-  нужно поменять BASE_PATH=/ и SITE_URL=https://pavelpronin.me, затем
-  пересобрать и запушть.
+Что осталось для запуска домена:
+- Custom domain `pavelpronin.art` уже указан в Settings → Pages.
+- DNS-записи обновлены владельцем домена; нужно дождаться, пока публичные DNS-серверы начнут возвращать адреса GitHub Pages.
+- После проверки DNS дождаться выпуска сертификата и включить Enforce HTTPS.

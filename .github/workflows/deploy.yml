@@ -32,6 +32,9 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          BASE_PATH: /
+          SITE_URL: https://pavelpronin.art
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
