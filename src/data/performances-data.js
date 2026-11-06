@@ -1,7 +1,7 @@
 /**
  * performances-data.js — реестр спектаклей.
- * Источник: старый сайт pavelpronin.me/performances/ (перенесено 01.09.2026),
- * годы премьер уточнены по файлам режиссёра 05.10.2026.
+ * Источник: старый сайт и документы режиссёра; новые материалы сверяются
+ * с папкой «Материалы для сайта» на Яндекс.Диске.
  *
  * Поля:
  *   slug    — англ. слаг для URL (/performances/<slug>/)
@@ -10,6 +10,8 @@
  *   theater — театр
  *   year    — год премьеры
  *   status  — 'live' (идёт в репертуаре) | 'archive' (архив)
+ *   ticketUrl — страница театра с информацией о спектакле и билетах, если дана
+ *   hideVideos — скрыть видеоссылку по просьбе режиссёра, пока спектакль идёт
  *   image   — обложка (афиша). У 11 спектаклей это локальные файлы из
  *             `public/images/performances/<slug>/poster.webp`, собранные
  *             из архива заказчика скриптом `scripts/import-photos.py`.
@@ -23,9 +25,9 @@
  * в performances-gallery.js (оба собраны из Материалы для сайта.zip),
  * а страницы собирает scripts/generate-performances.mjs.
  *
- * ВАЖНО: 12 спектаклей из архива описаны и датированы по документам
- * заказчика. Остальные 16 — только название с театром и годом, ждут текстов.
- * Статусы уточнить у заказчика.
+ * ВАЖНО: документы найдены для 29 спектаклей; их перенос в реестр и тексты
+ * выполняется пакетами. Статус live и ссылки на театр ставятся только по
+ * прямым отметкам в документах режиссёра.
  */
 
 export const performances = [
@@ -34,8 +36,9 @@ export const performances = [
     title: '«Пять ложек эликсира»',
     author: 'по киносценарию А. и Б. Стругацких',
     theater: 'Московский театр Et Cetera',
-    year: 2024,
-    status: 'archive',
+    year: 2026,
+    status: 'live',
+    ticketUrl: 'https://et-cetera.ru/performance/pyat-lozhek-eliksira/',
     image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/5f5667b5-350e-447c-a31b-f86c27bd3c85/5278352199782176823.jpg'
   },
   {
@@ -43,8 +46,10 @@ export const performances = [
     title: '«Волшебный орех. История Щелкунчика»',
     author: 'по Э.Т.А. Гофману',
     theater: 'Чувашский театр юного зрителя им. М. Сеспеля',
-    year: 2024,
-    status: 'archive',
+    year: 2025,
+    status: 'live',
+    ticketUrl: 'https://xn--e1aasoib4f.xn--p1ai/repertuar--1/volshebny-orekh-istoriya-shchelkunchika',
+    hideVideos: true,
     image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/b3b36fab-1b4d-480a-8de9-ce30dc9dc213/5208501660588641183.jpg'
   },
   {
@@ -52,8 +57,10 @@ export const performances = [
     title: '«Помни»',
     author: 'спектакль-посвящение',
     theater: 'Краснодарский Молодёжный театр',
-    year: 2024,
+    year: 2025,
     status: 'live',
+    ticketUrl: 'https://kmto-premiera.ru/molodezhnyy-teatr/afisha/16579/',
+    hideVideos: true,
     image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/b63bb167-e608-4ab8-ab37-c987a9145e8b/jRASGjgZyK2ICl-6P1fKvo1IoMQ-mXdTxtGcwTR960BJjHcqFBp-mGBp4z9cY5uJgNtHpJavxZu4ZHG5MPEBy3f1.jpg'
   },
   {
@@ -63,6 +70,8 @@ export const performances = [
     theater: 'Краснодарский Молодёжный театр',
     year: 2024,
     status: 'live',
+    ticketUrl: 'https://kmto-premiera.ru/molodezhnyy-teatr/afisha/16023/',
+    hideVideos: true,
     image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1738589675448-7FX31ZQC9RCUFU3TCQS5/5226898848054634031.jpg'
   },
   {
@@ -71,7 +80,8 @@ export const performances = [
     author: 'А. Галин',
     theater: 'Хабаровский театр юного зрителя',
     year: 2024,
-    status: 'archive',
+    status: 'live',
+    ticketUrl: 'https://tuz-xa.ru/repertoire/retro',
     image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1729333761186-NDKUNR0782UC9AYCXVPR/5242509310418869387.jpg'
   },
   {
@@ -80,8 +90,21 @@ export const performances = [
     author: 'по произведениям А. Линдгрен',
     theater: '«Ведогонь-театр» (Зеленоград, Москва)',
     year: 2023,
-    status: 'archive',
+    status: 'live',
+    ticketUrl: 'https://vedogon.ru/kalle#!/tab/645426278-1',
+    hideVideos: true,
     image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1701334450754-LBHDHQK003G3KX90T9ZR/photo1695841803.jpeg'
+  },
+  {
+    slug: 'dedmoroz',
+    title: '«Дед Мороз»',
+    author: 'П. Пронин по мотивам сказки «Морозко»',
+    theater: 'Московский областной театр драмы и комедии',
+    year: 2023,
+    status: 'live',
+    ticketUrl: 'https://mosobldrama.ru/ded_moroz',
+    hideVideos: true,
+    image: 'images/performances/dedmoroz/poster.webp'
   },
   {
     slug: 'starfall',
@@ -96,9 +119,11 @@ export const performances = [
     slug: 'scarletsails',
     title: '«Алые паруса»',
     author: 'П. Морозов по А. Грину',
-    theater: 'Молодёжный Театр Алтая',
+    theater: 'Ачинский драматический театр',
     year: 2023,
-    status: 'archive',
+    status: 'live',
+    ticketUrl: 'https://www.achdt.ru/?page_id=17861',
+    hideVideos: true,
     image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1680622373809-SY2LO8DIQCYEV8PCI32N/Scarlet+Sails.jpg'
   },
   {
@@ -161,7 +186,9 @@ export const performances = [
     author: 'А. Галин',
     theater: 'Екатеринбургский театр юного зрителя',
     year: 2021,
-    status: 'archive',
+    status: 'live',
+    ticketUrl: 'https://xn--g1av0b.xn--80acgfbsl1azdqr.xn--p1ai/performances/item/188',
+    hideVideos: true,
     image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1623913933240-A4EKJVCSK4HZ2ZNU2AJ0/Retro+poster.jpg'
   },
   {

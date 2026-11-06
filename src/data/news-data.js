@@ -17,27 +17,6 @@
  * Пустые массивы = блок на главной скрывается целиком.
  * Названия анонсов — из Тексты_сайта_RU.txt, раздел «Ближайшие события».
  */
-export const upcoming = [
-  {
-    slug: 'plato-dialogues-seminar',
-    date: '2026-10',
-    dateLabel: 'Октябрь 2026',
-    kind: 'Семинар',
-    title: 'Семинар по Диалогам Платона',
-    place: 'Москва',
-    note: '',
-    link: ''
-  },
-  {
-    slug: 'turandot-premiere',
-    date: '2026-11',
-    dateLabel: 'Ноябрь 2026',
-    kind: 'Премьера',
-    title: 'Премьера «Принцессы Турандот»',
-    place: 'Элиста',
-    note: '',
-    link: ''
-  }
-];
+export const upcoming = [];
 
 export const posts = [];

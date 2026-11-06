@@ -7,6 +7,7 @@ import { pedagogyProjects } from '../data/pedagogy-data.js';
 import { pedagogySpecs } from './pedagogy-specs.js';
 
 const BASE = import.meta.env.BASE_URL;
+const imageSrc = (image) => (/^https?:\/\//i.test(image) ? image : BASE + image);
 
 (function () {
   const grid = document.querySelector('[data-pedagogy-grid]');
@@ -21,7 +22,7 @@ const BASE = import.meta.env.BASE_URL;
       return (
         '<a class="perf-card animate-on-scroll" href="' + href + '">' +
         '<div class="perf-card__media">' +
-        '<img src="' + p.image + '" alt="' + p.title + '" loading="lazy" />' +
+        '<img src="' + imageSrc(p.image) + '" alt="' + p.title + '" loading="lazy" />' +
         '</div>' +
         '<div class="perf-card__body">' +
         '<h3 class="perf-card__title">' + p.title + '</h3>' +

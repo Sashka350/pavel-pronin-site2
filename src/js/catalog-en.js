@@ -20,12 +20,15 @@ function imgSrc(url) {
   if (!grid) return;
 
   const emptyNotice = document.querySelector('[data-catalog-empty]');
+  const translatedPerformances = performances.filter(function (p) {
+    return (performancesEn[p.slug] || {}).title;
+  });
 
   const statusButtons = Array.from(
     document.querySelectorAll('[data-filter-status]')
   );
 
-  const years = [...new Set(performances.map(function (p) { return p.year; }))].sort(function (a, b) { return b - a; });
+  const years = [...new Set(translatedPerformances.map(function (p) { return p.year; }))].sort(function (a, b) { return b - a; });
   const yearsWrap = document.querySelector('[data-filter-years]');
 
   const params = new URLSearchParams(window.location.search);
@@ -60,7 +63,7 @@ function imgSrc(url) {
   }
 
   function applyFilters() {
-    let list = performances;
+    let list = translatedPerformances;
 
     if (activeStatus !== 'all') {
       list = list.filter(function (p) { return p.status === activeStatus; });

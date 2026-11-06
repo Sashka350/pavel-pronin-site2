@@ -46,13 +46,16 @@ function page(p, lang) {
   if (!p.slug) return null;
   const isEn = lang === 'en';
   const en = pedagogyProjectsEn[p.slug] || {};
+  if (isEn && !en.title) return null;
   const title = isEn ? (en.title || p.title) : p.title;
   const period = isEn ? (en.period != null ? en.period : p.period) : p.period;
   const place = isEn ? (en.place != null ? en.place : p.place) : p.place;
-  const role = isEn ? (en.role || p.role) : p.role;
-  const taught = isEn ? (en.taught || p.taught) : p.taught;
+  const role = isEn ? (en.role || '') : p.role;
+  const taught = isEn ? (en.taught || '') : p.taught;
   const url = (isEn ? '/en' : '') + '/pedagogy/' + p.slug + '/';
-  const imgSrc = p.image || 'https://placehold.co/800x1067/141414/ffffff?text=' + encodeURIComponent(title);
+  const imgSrc = p.image
+    ? (/^https?:\/\//i.test(p.image) ? p.image : withBase(p.image))
+    : 'https://placehold.co/800x1067/141414/ffffff?text=' + encodeURIComponent(title);
 
   let descPh = 'Описание проекта появится после получения материалов от режиссёра.';
   let backLabel = 'Все проекты';
@@ -65,7 +68,7 @@ function page(p, lang) {
   let roleLabel = 'Кем был';
   let taughtLabel = 'Чему учил';
   if (isEn) {
-    descPh = 'A description of the project will appear once the director provides the materials.';
+    descPh = 'The English version of the project description is being prepared.';
     backLabel = 'All projects';
     crumb = 'Pedagogy';
     oProj = 'About the project';
@@ -76,7 +79,12 @@ function page(p, lang) {
     roleLabel = 'Role';
     taughtLabel = 'Taught';
   }
-  const description = p.description ? p.description : descPh;
+  const description = isEn ? en.description || '' : p.description || '';
+  const descriptionHtml = Array.isArray(description)
+    ? description.map((paragraph) => '<p>' + esc(paragraph) + '</p>').join('')
+    : description
+      ? '<p>' + esc(description) + '</p>'
+      : '<p>' + esc(isEn ? descPh : p.description || descPh) + '</p>';
 
   const meta = [];
   if (period) meta.push('<div class="perf-spec"><span class="perf-spec__label">' + periodLabel + '</span><span class="perf-spec__value">' + esc(period) + '</span></div>');
@@ -98,10 +106,9 @@ function page(p, lang) {
     '<div class="perf-page__cover animate-on-scroll">' +
     '<img src="' + imgSrc + '" alt="' + esc(title) + '" />' +
     '</div>' +
-
     '<div class="perf-page__section animate-on-scroll">' +
     '<h2 class="perf-page__section-title">' + oProj + '</h2>' +
-    '<div class="perf-page__desc"><p>' + esc(description) + '</p></div>' +
+    '<div class="perf-page__desc">' + descriptionHtml + '</div>' +
     '</div>' +
 
     '<div class="perf-page__section animate-on-scroll">' +
@@ -138,6 +145,7 @@ function page(p, lang) {
 }
 
 let count = 0;
+let countEn = 0;
 for (const p of pedagogyProjects) {
   const html = page(p, 'ru');
   if (!html) continue;
@@ -150,7 +158,8 @@ for (const p of pedagogyProjects) {
     const dirEn = join(outDir, 'en', 'pedagogy', p.slug);
     mkdirSync(dirEn, { recursive: true });
     writeFileSync(join(dirEn, 'index.html'), htmlEn, 'utf8');
+    countEn++;
   }
   count++;
 }
-console.log('Сгенерировано страниц педагогических проектов: ' + count + ' → dist/pedagogy/<slug>/ и dist/en/pedagogy/<slug>/');
+console.log('Сгенерировано страниц педагогических проектов: RU — ' + count + ', EN — ' + countEn);

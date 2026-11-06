@@ -134,6 +134,7 @@ function siteImg(relPath) {
 
 function page(p, lang) {
   const isEn = lang === 'en';
+  if (isEn && !(performancesEn[p.slug] || {}).title) return null;
   const pl = isEn ? PLACEHOLDER_EN : PLACEHOLDER_RU;
   const en = performancesEn[p.slug] || {};
   const title = isEn ? (en.title || p.title) : p.title;
@@ -237,11 +238,17 @@ function page(p, lang) {
         : '<p class="perf-page__desc">' + (isEn ? 'No press materials.' : 'Пресса не писала об этой постановке.') + '</p>')
     : '<p class="perf-page__desc">' + pl.press + '</p>';
 
-  const videos = a
+  const videos = p.hideVideos
+    ? ''
+    : a
     ? (a.videos.length
         ? linkList(a.videos, isEn ? 'Watch the performance' : 'Посмотреть спектакль')
         : '<p class="perf-page__desc">' + (isEn ? 'No video available.' : 'Видеозаписи нет.') + '</p>')
     : '<p class="perf-page__desc">' + pl.videos + '</p>';
+  const ticketLink = p.ticketUrl
+    ? '<a class="btn btn--outline" href="' + esc(p.ticketUrl) + '" target="_blank" rel="noopener">' +
+      (isEn ? 'Theatre website · tickets' : 'Сайт театра · билеты') + '</a>'
+    : '';
 
   const premiere = a ? (premiereText || String(a.year)) : pl.premiere;
   const city = cityText ? esc(cityText) : '';
@@ -301,6 +308,7 @@ const lead = hasDescription ? descText[0] : '';
     '<div class="perf-page__section animate-on-scroll">' +
     '<h2 class="perf-page__section-title">' + t + '</h2>' +
     '<p class="perf-page__desc">' + esc(theater) + '</p>' +
+    ticketLink +
     '</div>' +
 
     epigraph +
@@ -325,10 +333,11 @@ const lead = hasDescription ? descText[0] : '';
     '<div class="perf-spec__value">' + press + '</div>' +
     '</div>' +
 
-    '<div class="perf-page__section animate-on-scroll">' +
-    '<h2 class="perf-page__section-title">' + vid + '</h2>' +
-    '<div class="perf-spec__value">' + videos + '</div>' +
-    '</div>' +
+    (p.hideVideos ? '' :
+      '<div class="perf-page__section animate-on-scroll">' +
+      '<h2 class="perf-page__section-title">' + vid + '</h2>' +
+      '<div class="perf-spec__value">' + videos + '</div>' +
+      '</div>') +
 
     (photos.length
       ? '<div class="perf-page__section animate-on-scroll">' +
@@ -342,7 +351,9 @@ const lead = hasDescription ? descText[0] : '';
 
   const opts = {
     active: 'performances',
-    enPath: '/en/performances/' + p.slug + '/',
+    enPath: performancesEn[p.slug] && performancesEn[p.slug].title
+      ? '/en/performances/' + p.slug + '/'
+      : '/en/performances/',
     ruPath: isEn ? '/performances/' + p.slug + '/' : undefined,
     title: metaTitle(title, theater, p.year, isEn),
     description: metaDescription,
@@ -360,17 +371,22 @@ const lead = hasDescription ? descText[0] : '';
 }
 
 let count = 0;
+let countEn = 0;
 for (const p of performances) {
   const dir = join(outDir, 'performances', p.slug);
   mkdirSync(dir, { recursive: true });
   writeFileSync(join(dir, 'index.html'), page(p, 'ru'), 'utf8');
 
-  const dirEn = join(outDir, 'en', 'performances', p.slug);
-  mkdirSync(dirEn, { recursive: true });
-  writeFileSync(join(dirEn, 'index.html'), page(p, 'en'), 'utf8');
+  const htmlEn = page(p, 'en');
+  if (htmlEn) {
+    const dirEn = join(outDir, 'en', 'performances', p.slug);
+    mkdirSync(dirEn, { recursive: true });
+    writeFileSync(join(dirEn, 'index.html'), htmlEn, 'utf8');
+    countEn++;
+  }
   count++;
 }
-console.log('Сгенерировано страниц спектаклей: ' + count + ' → dist/performances/<slug>/ и dist/en/performances/<slug>/');
+console.log('Сгенерировано страниц спектаклей: RU — ' + count + ', EN — ' + countEn);
 
 // Спектакли из архива без английского перевода: на EN-странице они покажут
 // русский текст с пометкой. Список нужен, чтобы видеть объём незакрытого.
@@ -389,9 +405,12 @@ const pedagogyPaths = new Set();
 const pedagogyPathsEn = new Set();
 try {
   const { pedagogyProjects } = await import('../src/data/pedagogy-data.js');
+  const { pedagogyProjectsEn } = await import('../src/data/pedagogy-en.js');
   pedagogyProjects.forEach(function (pr) {
     if (pr.slug) pedagogyPaths.add(SITE + '/pedagogy/' + pr.slug + '/');
-    if (pr.slug) pedagogyPathsEn.add(SITE + '/en/pedagogy/' + pr.slug + '/');
+    if (pr.slug && (pedagogyProjectsEn[pr.slug] || {}).title) {
+      pedagogyPathsEn.add(SITE + '/en/pedagogy/' + pr.slug + '/');
+    }
   });
 } catch (e) {
   console.error('Не удалось прочитать педагогические проекты для sitemap:', e.message);
@@ -450,11 +469,13 @@ performances.forEach(function (p) {
     lastmod: today,
     priority: p.status === 'live' ? '0.9' : '0.6'
   });
-  urls.push({
-    loc: SITE + '/en/performances/' + p.slug + '/',
-    lastmod: today,
-    priority: p.status === 'live' ? '0.8' : '0.5'
-  });
+  if ((performancesEn[p.slug] || {}).title) {
+    urls.push({
+      loc: SITE + '/en/performances/' + p.slug + '/',
+      lastmod: today,
+      priority: p.status === 'live' ? '0.8' : '0.5'
+    });
+  }
 });
 pedagogyPaths.forEach(function (loc) {
   urls.push({ loc: loc, lastmod: today, priority: '0.6' });

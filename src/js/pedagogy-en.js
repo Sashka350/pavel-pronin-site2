@@ -7,15 +7,21 @@ import { pedagogyProjectsEn } from '../data/pedagogy-en.js';
 import { pedagogySpecs } from './pedagogy-specs.js';
 
 const BASE = import.meta.env.BASE_URL;
+const imageSrc = (image) => (/^https?:\/\//i.test(image) ? image : BASE + image);
 
 (function () {
   const grid = document.querySelector('[data-pedagogy-grid]');
   if (!grid) return;
 
   const emptyNotice = document.querySelector('[data-pedagogy-empty]');
-  emptyNotice.classList.toggle('is-hidden', pedagogyProjects.length > 0);
 
-  grid.innerHTML = pedagogyProjects
+  const translatedProjects = pedagogyProjects.filter(function (p) {
+    return (pedagogyProjectsEn[p.slug] || {}).title;
+  });
+
+  emptyNotice.classList.toggle('is-hidden', translatedProjects.length > 0);
+
+  grid.innerHTML = translatedProjects
     .map(function (p) {
       const en = pedagogyProjectsEn[p.slug] || {};
       const title = en.title || p.title;
@@ -25,14 +31,14 @@ const BASE = import.meta.env.BASE_URL;
       return (
         '<a class="perf-card animate-on-scroll" href="' + href + '">' +
         '<div class="perf-card__media">' +
-        '<img src="' + p.image + '" alt="' + title + '" loading="lazy" />' +
+        '<img src="' + imageSrc(p.image) + '" alt="' + title + '" loading="lazy" />' +
         '</div>' +
         '<div class="perf-card__body">' +
         '<h3 class="perf-card__title">' + title + '</h3>' +
         '<div class="perf-card__theater">' + [place, period].filter(Boolean).join(', ') + '</div>' +
         pedagogySpecs({
-          role: en.role || p.role,
-          taught: en.taught || p.taught
+          role: en.role || '',
+          taught: en.taught || ''
         }, 'en') +
         (p.note ? '<div class="perf-card__meta"><span>' + p.note + '</span></div>' : '') +
         '</div>' +

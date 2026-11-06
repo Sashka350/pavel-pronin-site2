@@ -1,27 +1,27 @@
 /**
  * pedagogy-en.js — English versions of pedagogy project data.
  * Mirrors src/data/pedagogy-data.js by slug.
- * Пустое поле = взять русский оригинал (как в performances-en.js).
- * role / taught — перевод строк «Кем был» и «Чему учил» (ТЗ п. 3.7).
+ * Projects without an English title are omitted from the EN list until translated.
+ * role / taught are shown only when an English translation is present.
  */
 export const pedagogyProjectsEn = {
   'summer-school': {
-    title: 'Summer School',
+    title: '',
     period: '2026',
     place: '',
     role: '',
     taught: ''
   },
   'vasiliev-school': {
-    title: 'School of Anatoly Vasilyev\'s Disciples',
+    title: '',
     period: '2025 — present',
     place: '',
     role: '',
     taught: ''
   },
   'gitis-2024': {
-    title: 'Russian Institute of Theatre Arts — GITIS',
-    period: '2024 — present',
+    title: '',
+    period: '',
     place: 'Moscow',
     role: '',
     taught: ''
@@ -41,15 +41,15 @@ export const pedagogyProjectsEn = {
     taught: ''
   },
   'gitis-2016': {
-    title: 'Russian Institute of Theatre Arts — GITIS',
+    title: '',
     period: '2016 — 2018',
     place: 'Moscow',
     role: '',
     taught: ''
   },
   'aitaiata': {
-    title: 'Estonian Center AITA/IATA',
-    period: '2016',
+    title: '',
+    period: 'January 2016',
     place: 'Tallinn, Estonia',
     role: '',
     taught: ''
@@ -70,7 +70,35 @@ export const pedagogyProjectsEn = {
   },
   'kazus': {
     title: 'Youth Theatre KAZUS',
-    period: '2012 — 2014',
+    period: '',
+    place: '',
+    role: '',
+    taught: ''
+  },
+  'school-theatre-leaders': {
+    title: '',
+    period: '',
+    place: '',
+    role: '',
+    taught: ''
+  },
+  'interussia-2025': {
+    title: '',
+    period: '',
+    place: '',
+    role: '',
+    taught: ''
+  },
+  'rezhfak': {
+    title: '',
+    period: '',
+    place: '',
+    role: '',
+    taught: ''
+  },
+  'talks-about-theatre': {
+    title: '',
+    period: '',
     place: '',
     role: '',
     taught: ''
