@@ -4,17 +4,19 @@ import { fileURLToPath, URL } from 'node:url';
 // Основной сайт работает на корне кастомного домена.
 // Для адреса GitHub Pages репозитория задайте BASE_PATH=/pavel-pronin-site2/.
 const basePath = process.env.BASE_PATH || '/';
+const siteUrl = process.env.SITE_URL || 'https://pavelpronin.art';
 
 export default defineConfig({
   root: '.',
   base: basePath,
   plugins: [
     {
-      name: 'strip-project-pages-prefix-for-custom-domain',
+      name: 'prepare-pages-base-and-site-url',
       transformIndexHtml: {
         order: 'pre',
         handler(html) {
-          return basePath === '/' ? html.replaceAll('/pavel-pronin-site2/', '/') : html;
+          const withSiteUrl = html.replaceAll('https://pavelpronin.art', siteUrl);
+          return basePath === '/' ? withSiteUrl.replaceAll('/pavel-pronin-site2/', '/') : withSiteUrl;
         }
       }
     }
