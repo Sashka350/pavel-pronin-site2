@@ -171,3 +171,97 @@ for (const s of sketches) {
   count++;
 }
 console.log('Сгенерировано страниц эскизов: ' + count + ' → dist/sketches/<slug>/ (скрытые, noindex, в sitemap не входят)');
+
+// --- Страницы-списки /sketches/ и /en/sketches/ (скрытые, noindex) ---
+// Вводный текст — из «+ Эскизы.docx» (папка «Эскизы» на Диске).
+const { wrapHtml: wrapHtmlEn, esc: escEn } = await import('./page-template-en.js');
+
+const INTRO_RU =
+  'Лаборатория в театре – это особый формат работы театра. В основе любой лаборатории лежит такая идея: быстро и без особых затрат сделать небольшие эскизы нескольких будущих спектаклей и выбрать один из них. Эскиз спектакля неуловим. Иногда от него не остаётся ничего, кроме воспоминаний, если же есть видео (пусть даже и не очень хорошего качества), то уже повезло. Здесь собраны некоторые из лабораторных эскизов, которые мне дороги.';
+
+const INTRO_EN =
+  'A theatre laboratory is a special format of work. The idea behind any laboratory is to quickly and inexpensively create small sketches of several future productions and to choose one of them. A sketch of a performance is elusive. Sometimes nothing remains of it except memories; if there is a video (even of not very good quality), you are already lucky. Here are collected some of the laboratory sketches that are dear to me.';
+
+function sketchSection(s, lang) {
+  const href = withBase('/sketches/' + s.slug + '/');
+  const title = lang === 'en' ? escEn(s.title) : esc(s.title);
+  const link = lang === 'en' ? title + ' <span class="perf-spec__role">(in Russian)</span>' : title;
+  return (
+    '<div class="perf-page__section animate-on-scroll">' +
+    '<h2 class="perf-page__section-title"><a href="' + href + '">' + link + '</a></h2>' +
+    '<p class="perf-spec__role">' + esc(s.theater) + ' · ' + esc(s.city) + ' · ' + esc(s.showDate) + '</p>' +
+    '<div class="perf-page__desc"><p>' + esc(s.lab) + '</p></div>' +
+    '</div>'
+  );
+}
+
+const listRu = sketches.map((s) => sketchSection(s, 'ru')).join('');
+const listEn = sketches.map((s) => sketchSection(s, 'en')).join('');
+
+const bodyRu =
+  '<section class="section page-head">' +
+  '<div class="container">' +
+  '<div class="page-head__inner animate-on-scroll">' +
+  '<h1 class="page-head__title">Эскизы лабораторий</h1>' +
+  '<p class="page-head__lead">' + esc(INTRO_RU) + '</p>' +
+  '</div>' +
+  '</div>' +
+  '</section>' +
+  '<section class="section section--tight">' +
+  '<div class="container">' +
+  listRu +
+  '<p class="perf-page__desc"><a href="' + withBase('/performances/') + '">← Все спектакли</a></p>' +
+  '</div>' +
+  '</section>';
+
+writeFileSync(
+  join(outDir, 'sketches', 'index.html'),
+  wrapHtml({
+    active: 'sketches',
+    enPath: '/en/sketches/',
+    title: 'Эскизы лабораторий · Павел Пронин',
+    description: 'Лабораторные эскизы спектаклей режиссёра Павла Пронина: «Ловушка для одинокого мужчины», «Сказка о царе Салтане…», «Один билет до Марса».',
+    canonical: '/sketches/',
+    robots: 'noindex',
+    ogImage: SITE + '/' + sketches[0].photos[0].full,
+    body: bodyRu,
+    cssHref,
+    jsSrc
+  }),
+  'utf8'
+);
+
+const bodyEn =
+  '<section class="section page-head">' +
+  '<div class="container">' +
+  '<div class="page-head__inner animate-on-scroll">' +
+  '<h1 class="page-head__title">Laboratory Sketches</h1>' +
+  '<p class="page-head__lead">' + escEn(INTRO_EN) + '</p>' +
+  '</div>' +
+  '</div>' +
+  '</section>' +
+  '<section class="section section--tight">' +
+  '<div class="container">' +
+  listEn +
+  '<p class="perf-page__desc"><a href="' + withBase('/en/performances/') + '">← All performances</a></p>' +
+  '</div>' +
+  '</section>';
+
+mkdirSync(join(outDir, 'en', 'sketches'), { recursive: true });
+writeFileSync(
+  join(outDir, 'en', 'sketches', 'index.html'),
+  wrapHtmlEn({
+    active: 'sketches',
+    ruPath: '/sketches/',
+    title: 'Laboratory Sketches · Pavel Pronin',
+    description: 'Laboratory sketches of performances by director Pavel Pronin. The sketch texts are published in Russian only.',
+    canonical: '/en/sketches/',
+    robots: 'noindex',
+    ogImage: SITE + '/' + sketches[0].photos[0].full,
+    body: bodyEn,
+    cssHref,
+    jsSrc
+  }),
+  'utf8'
+);
+console.log('Сгенерированы страницы-списки: dist/sketches/index.html и dist/en/sketches/index.html (скрытые, noindex)');

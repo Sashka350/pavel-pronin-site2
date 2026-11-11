@@ -514,7 +514,7 @@ async function checkSitemapAndRobots(allPages) {
   }
   // Страницы, которым не положено быть в sitemap: скрытые страницы эскизов
   // (noindex, доступны только по прямой ссылке — см. generate-sketches.mjs).
-  const SITEMAP_EXCLUDED = /^\/sketches\//;
+  const SITEMAP_EXCLUDED = /^\/(en\/)?sketches\//;
   for (const page of allPages) {
     if (SITEMAP_EXCLUDED.test(page)) continue;
     if (!seen.has(norm(page))) report('seo', page, 'страницы нет в sitemap.xml');
@@ -605,7 +605,8 @@ async function main() {
       if (dom.images.broken.length) report('images', path, 'битые картинки: ' + dom.images.broken.join(', '));
       if (dom.images.noAlt.length) report('images', path, 'картинки без alt: ' + dom.images.noAlt.join(', '));
     }
-    if (has('cyrillic') && isEnPath(path)) {
+    // /en/sketches/ — список сознательно ведёт на русскоязычные страницы эскизов.
+    if (has('cyrillic') && isEnPath(path) && path !== '/en/sketches/') {
       const hits = await page.evaluate(collectCyrillic);
       if (hits.length) report('cyrillic', path, 'русский текст: ' + hits.map((h) => '«' + h + '»').join(' '));
     }
