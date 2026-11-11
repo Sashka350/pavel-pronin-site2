@@ -134,6 +134,7 @@ export function head(opts) {
     themeScript() +
     '<title>' + esc(opts.title) + '</title>' +
     '<meta name="description" content="' + esc(opts.description) + '" />' +
+    (opts.robots ? '<meta name="robots" content="' + esc(opts.robots) + '" />' : '') +
     '<meta name="theme-color" content="#0C0C0C" />' +
     '<link rel="canonical" href="' + SITE + opts.canonical + '" />' +
     '<meta property="og:type" content="' + (opts.ogType || 'website') + '" />' +
@@ -151,12 +152,12 @@ export function head(opts) {
   );
 }
 
-export function wrapHtml({ lang = 'ru', active, enPath, canonical, title, description, ogImage, ogDescription, ogType, jsonld, body, jsSrc, cssHref }) {
+export function wrapHtml({ lang = 'ru', active, enPath, canonical, title, description, robots, ogImage, ogDescription, ogType, jsonld, body, jsSrc, cssHref }) {
   return (
     '<!DOCTYPE html>\n' +
     '<html lang="' + lang + '" data-theme="dark">\n' +
     '<head>' +
-    head({ title, description, canonical, ogImage, ogDescription, ogType, jsonld }) +
+    head({ title, description, robots, canonical, ogImage, ogDescription, ogType, jsonld }) +
     '<link rel="stylesheet" href="' + cssHref + '" />' +
     '</head>' +
     '<body>' +

@@ -262,6 +262,15 @@ function page(p, lang) {
       (isEn ? 'Theatre website · tickets' : 'Сайт театра · билеты') + '</a>'
     : '';
 
+  // Связь с эскизом лаборатории: только по прямому упоминанию в тексте
+  // режиссёра (поле related в performances-archive.js).
+  const related = a && a.related
+    ? '<div class="perf-page__section animate-on-scroll">' +
+      '<h2 class="perf-page__section-title">' + (isEn ? 'Related work' : 'Связанная работа') + '</h2>' +
+      '<p class="perf-page__desc"><a href="' + withBase('/sketches/' + a.related.slug + '/') + '">' + esc(a.related.label) + '</a></p>' +
+      '</div>'
+    : '';
+
   const premiere = a ? (premiereText || String(a.year)) : pl.premiere;
   const city = cityText ? esc(cityText) : '';
   const awards = !russianOnly && awardsText.length
@@ -352,6 +361,8 @@ const lead = hasDescription ? descText[0] : '';
       '<h2 class="perf-page__section-title">' + vid + '</h2>' +
       '<div class="perf-spec__value">' + videos + '</div>' +
       '</div>') +
+
+    (isEn ? '' : related) +
 
     (photos.length
       ? '<div class="perf-page__section animate-on-scroll">' +

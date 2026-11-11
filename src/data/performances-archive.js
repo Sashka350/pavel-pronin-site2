@@ -1250,6 +1250,10 @@ export const performancesArchive = {
     ],
     videos: [
     ],
+    related: {
+      label: "Эскиз лаборатории «Один билет до Марса» — работа, в которой был найден метод, затем использованный в этом спектакле",
+      slug: "onetickettomars"
+    },
     theater: "Хабаровский театр юного зрителя"
   },
   sorrowfromthemind: {
