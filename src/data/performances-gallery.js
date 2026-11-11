@@ -10,8 +10,8 @@
  *   photos[] — снимки постановки:
  *     full  — до 1600px WebP, для лайтбокса;
  *     thumb — превью 600px WebP, для сетки галереи;
- *     kind  — 'photo' (фото спектакля) | 'makET' (эскиз декораций);
- *     caption — подпись, если есть.
+ *     kind  — 'photo' (фото спектакля) | 'makET' (макет/эскиз декораций);
+ *     caption — «Макет декораций» или «Эскиз декораций» для kind 'makET'.
  *
  * Правь руками, если нужно поменять подписи или порядок; повторный запуск
  * скрипта перезапишет файл целиком.
@@ -26,11 +26,11 @@ export const galleries = {
       { full: "images/performances/acityinlove/gallery/03.webp", thumb: "images/performances/acityinlove/gallery/03-sm.webp", kind: 'photo' },
       { full: "images/performances/acityinlove/gallery/04.webp", thumb: "images/performances/acityinlove/gallery/04-sm.webp", kind: 'photo' },
       { full: "images/performances/acityinlove/gallery/05.webp", thumb: "images/performances/acityinlove/gallery/05-sm.webp", kind: 'photo' },
-      { full: "images/performances/acityinlove/gallery/06.webp", thumb: "images/performances/acityinlove/gallery/06-sm.webp", kind: 'makET', caption: "Эскиз декораций" },
-      { full: "images/performances/acityinlove/gallery/07.webp", thumb: "images/performances/acityinlove/gallery/07-sm.webp", kind: 'makET', caption: "Эскиз декораций" },
-      { full: "images/performances/acityinlove/gallery/08.webp", thumb: "images/performances/acityinlove/gallery/08-sm.webp", kind: 'makET', caption: "Эскиз декораций" },
-      { full: "images/performances/acityinlove/gallery/09.webp", thumb: "images/performances/acityinlove/gallery/09-sm.webp", kind: 'makET', caption: "Эскиз декораций" },
-      { full: "images/performances/acityinlove/gallery/10.webp", thumb: "images/performances/acityinlove/gallery/10-sm.webp", kind: 'makET', caption: "Эскиз декораций" },
+      { full: "images/performances/acityinlove/gallery/06.webp", thumb: "images/performances/acityinlove/gallery/06-sm.webp", kind: 'makET', caption: "Макет декораций" },
+      { full: "images/performances/acityinlove/gallery/07.webp", thumb: "images/performances/acityinlove/gallery/07-sm.webp", kind: 'makET', caption: "Макет декораций" },
+      { full: "images/performances/acityinlove/gallery/08.webp", thumb: "images/performances/acityinlove/gallery/08-sm.webp", kind: 'makET', caption: "Макет декораций" },
+      { full: "images/performances/acityinlove/gallery/09.webp", thumb: "images/performances/acityinlove/gallery/09-sm.webp", kind: 'makET', caption: "Макет декораций" },
+      { full: "images/performances/acityinlove/gallery/10.webp", thumb: "images/performances/acityinlove/gallery/10-sm.webp", kind: 'makET', caption: "Макет декораций" },
     ]
   },
   backtomurder: {
@@ -47,11 +47,11 @@ export const galleries = {
       { full: "images/performances/backtomurder/gallery/09.webp", thumb: "images/performances/backtomurder/gallery/09-sm.webp", kind: 'photo' },
       { full: "images/performances/backtomurder/gallery/10.webp", thumb: "images/performances/backtomurder/gallery/10-sm.webp", kind: 'photo' },
       { full: "images/performances/backtomurder/gallery/11.webp", thumb: "images/performances/backtomurder/gallery/11-sm.webp", kind: 'photo' },
-      { full: "images/performances/backtomurder/gallery/12.webp", thumb: "images/performances/backtomurder/gallery/12-sm.webp", kind: 'makET', caption: "Эскиз декораций" },
-      { full: "images/performances/backtomurder/gallery/13.webp", thumb: "images/performances/backtomurder/gallery/13-sm.webp", kind: 'makET', caption: "Эскиз декораций" },
-      { full: "images/performances/backtomurder/gallery/14.webp", thumb: "images/performances/backtomurder/gallery/14-sm.webp", kind: 'makET', caption: "Эскиз декораций" },
-      { full: "images/performances/backtomurder/gallery/15.webp", thumb: "images/performances/backtomurder/gallery/15-sm.webp", kind: 'makET', caption: "Эскиз декораций" },
-      { full: "images/performances/backtomurder/gallery/16.webp", thumb: "images/performances/backtomurder/gallery/16-sm.webp", kind: 'makET', caption: "Эскиз декораций" },
+      { full: "images/performances/backtomurder/gallery/12.webp", thumb: "images/performances/backtomurder/gallery/12-sm.webp", kind: 'makET', caption: "Макет декораций" },
+      { full: "images/performances/backtomurder/gallery/13.webp", thumb: "images/performances/backtomurder/gallery/13-sm.webp", kind: 'makET', caption: "Макет декораций" },
+      { full: "images/performances/backtomurder/gallery/14.webp", thumb: "images/performances/backtomurder/gallery/14-sm.webp", kind: 'makET', caption: "Макет декораций" },
+      { full: "images/performances/backtomurder/gallery/15.webp", thumb: "images/performances/backtomurder/gallery/15-sm.webp", kind: 'makET', caption: "Макет декораций" },
+      { full: "images/performances/backtomurder/gallery/16.webp", thumb: "images/performances/backtomurder/gallery/16-sm.webp", kind: 'makET', caption: "Макет декораций" },
     ]
   },
   boyhood: {
@@ -112,16 +112,16 @@ export const galleries = {
       { full: "images/performances/intheceilingthestarsareshining/gallery/10.webp", thumb: "images/performances/intheceilingthestarsareshining/gallery/10-sm.webp", kind: 'photo' },
       { full: "images/performances/intheceilingthestarsareshining/gallery/11.webp", thumb: "images/performances/intheceilingthestarsareshining/gallery/11-sm.webp", kind: 'photo' },
       { full: "images/performances/intheceilingthestarsareshining/gallery/12.webp", thumb: "images/performances/intheceilingthestarsareshining/gallery/12-sm.webp", kind: 'photo' },
-      { full: "images/performances/intheceilingthestarsareshining/gallery/13.webp", thumb: "images/performances/intheceilingthestarsareshining/gallery/13-sm.webp", kind: 'makET', caption: "Эскиз декораций" },
-      { full: "images/performances/intheceilingthestarsareshining/gallery/14.webp", thumb: "images/performances/intheceilingthestarsareshining/gallery/14-sm.webp", kind: 'makET', caption: "Эскиз декораций" },
-      { full: "images/performances/intheceilingthestarsareshining/gallery/15.webp", thumb: "images/performances/intheceilingthestarsareshining/gallery/15-sm.webp", kind: 'makET', caption: "Эскиз декораций" },
-      { full: "images/performances/intheceilingthestarsareshining/gallery/16.webp", thumb: "images/performances/intheceilingthestarsareshining/gallery/16-sm.webp", kind: 'makET', caption: "Эскиз декораций" },
-      { full: "images/performances/intheceilingthestarsareshining/gallery/17.webp", thumb: "images/performances/intheceilingthestarsareshining/gallery/17-sm.webp", kind: 'makET', caption: "Эскиз декораций" },
-      { full: "images/performances/intheceilingthestarsareshining/gallery/18.webp", thumb: "images/performances/intheceilingthestarsareshining/gallery/18-sm.webp", kind: 'makET', caption: "Эскиз декораций" },
-      { full: "images/performances/intheceilingthestarsareshining/gallery/19.webp", thumb: "images/performances/intheceilingthestarsareshining/gallery/19-sm.webp", kind: 'makET', caption: "Эскиз декораций" },
-      { full: "images/performances/intheceilingthestarsareshining/gallery/20.webp", thumb: "images/performances/intheceilingthestarsareshining/gallery/20-sm.webp", kind: 'makET', caption: "Эскиз декораций" },
-      { full: "images/performances/intheceilingthestarsareshining/gallery/21.webp", thumb: "images/performances/intheceilingthestarsareshining/gallery/21-sm.webp", kind: 'makET', caption: "Эскиз декораций" },
-      { full: "images/performances/intheceilingthestarsareshining/gallery/22.webp", thumb: "images/performances/intheceilingthestarsareshining/gallery/22-sm.webp", kind: 'makET', caption: "Эскиз декораций" },
+      { full: "images/performances/intheceilingthestarsareshining/gallery/13.webp", thumb: "images/performances/intheceilingthestarsareshining/gallery/13-sm.webp", kind: 'makET', caption: "Макет декораций" },
+      { full: "images/performances/intheceilingthestarsareshining/gallery/14.webp", thumb: "images/performances/intheceilingthestarsareshining/gallery/14-sm.webp", kind: 'makET', caption: "Макет декораций" },
+      { full: "images/performances/intheceilingthestarsareshining/gallery/15.webp", thumb: "images/performances/intheceilingthestarsareshining/gallery/15-sm.webp", kind: 'makET', caption: "Макет декораций" },
+      { full: "images/performances/intheceilingthestarsareshining/gallery/16.webp", thumb: "images/performances/intheceilingthestarsareshining/gallery/16-sm.webp", kind: 'makET', caption: "Макет декораций" },
+      { full: "images/performances/intheceilingthestarsareshining/gallery/17.webp", thumb: "images/performances/intheceilingthestarsareshining/gallery/17-sm.webp", kind: 'makET', caption: "Макет декораций" },
+      { full: "images/performances/intheceilingthestarsareshining/gallery/18.webp", thumb: "images/performances/intheceilingthestarsareshining/gallery/18-sm.webp", kind: 'makET', caption: "Макет декораций" },
+      { full: "images/performances/intheceilingthestarsareshining/gallery/19.webp", thumb: "images/performances/intheceilingthestarsareshining/gallery/19-sm.webp", kind: 'makET', caption: "Макет декораций" },
+      { full: "images/performances/intheceilingthestarsareshining/gallery/20.webp", thumb: "images/performances/intheceilingthestarsareshining/gallery/20-sm.webp", kind: 'makET', caption: "Макет декораций" },
+      { full: "images/performances/intheceilingthestarsareshining/gallery/21.webp", thumb: "images/performances/intheceilingthestarsareshining/gallery/21-sm.webp", kind: 'makET', caption: "Макет декораций" },
+      { full: "images/performances/intheceilingthestarsareshining/gallery/22.webp", thumb: "images/performances/intheceilingthestarsareshining/gallery/22-sm.webp", kind: 'makET', caption: "Макет декораций" },
     ]
   },
   nutcracker: {
@@ -136,12 +136,12 @@ export const galleries = {
       { full: "images/performances/nutcracker/gallery/07.webp", thumb: "images/performances/nutcracker/gallery/07-sm.webp", kind: 'photo' },
       { full: "images/performances/nutcracker/gallery/08.webp", thumb: "images/performances/nutcracker/gallery/08-sm.webp", kind: 'photo' },
       { full: "images/performances/nutcracker/gallery/09.webp", thumb: "images/performances/nutcracker/gallery/09-sm.webp", kind: 'photo' },
-      { full: "images/performances/nutcracker/gallery/10.webp", thumb: "images/performances/nutcracker/gallery/10-sm.webp", kind: 'makET', caption: "Эскиз декораций" },
-      { full: "images/performances/nutcracker/gallery/11.webp", thumb: "images/performances/nutcracker/gallery/11-sm.webp", kind: 'makET', caption: "Эскиз декораций" },
-      { full: "images/performances/nutcracker/gallery/12.webp", thumb: "images/performances/nutcracker/gallery/12-sm.webp", kind: 'makET', caption: "Эскиз декораций" },
-      { full: "images/performances/nutcracker/gallery/13.webp", thumb: "images/performances/nutcracker/gallery/13-sm.webp", kind: 'makET', caption: "Эскиз декораций" },
-      { full: "images/performances/nutcracker/gallery/14.webp", thumb: "images/performances/nutcracker/gallery/14-sm.webp", kind: 'makET', caption: "Эскиз декораций" },
-      { full: "images/performances/nutcracker/gallery/15.webp", thumb: "images/performances/nutcracker/gallery/15-sm.webp", kind: 'makET', caption: "Эскиз декораций" },
+      { full: "images/performances/nutcracker/gallery/10.webp", thumb: "images/performances/nutcracker/gallery/10-sm.webp", kind: 'makET', caption: "Макет декораций" },
+      { full: "images/performances/nutcracker/gallery/11.webp", thumb: "images/performances/nutcracker/gallery/11-sm.webp", kind: 'makET', caption: "Макет декораций" },
+      { full: "images/performances/nutcracker/gallery/12.webp", thumb: "images/performances/nutcracker/gallery/12-sm.webp", kind: 'makET', caption: "Макет декораций" },
+      { full: "images/performances/nutcracker/gallery/13.webp", thumb: "images/performances/nutcracker/gallery/13-sm.webp", kind: 'makET', caption: "Макет декораций" },
+      { full: "images/performances/nutcracker/gallery/14.webp", thumb: "images/performances/nutcracker/gallery/14-sm.webp", kind: 'makET', caption: "Макет декораций" },
+      { full: "images/performances/nutcracker/gallery/15.webp", thumb: "images/performances/nutcracker/gallery/15-sm.webp", kind: 'makET', caption: "Макет декораций" },
     ]
   },
   parodist: {
@@ -183,10 +183,10 @@ export const galleries = {
       { full: "images/performances/timurandhisteam/gallery/11.webp", thumb: "images/performances/timurandhisteam/gallery/11-sm.webp", kind: 'photo' },
       { full: "images/performances/timurandhisteam/gallery/12.webp", thumb: "images/performances/timurandhisteam/gallery/12-sm.webp", kind: 'photo' },
       { full: "images/performances/timurandhisteam/gallery/13.webp", thumb: "images/performances/timurandhisteam/gallery/13-sm.webp", kind: 'photo' },
-      { full: "images/performances/timurandhisteam/gallery/14.webp", thumb: "images/performances/timurandhisteam/gallery/14-sm.webp", kind: 'makET', caption: "Эскиз декораций" },
-      { full: "images/performances/timurandhisteam/gallery/15.webp", thumb: "images/performances/timurandhisteam/gallery/15-sm.webp", kind: 'makET', caption: "Эскиз декораций" },
-      { full: "images/performances/timurandhisteam/gallery/16.webp", thumb: "images/performances/timurandhisteam/gallery/16-sm.webp", kind: 'makET', caption: "Эскиз декораций" },
-      { full: "images/performances/timurandhisteam/gallery/17.webp", thumb: "images/performances/timurandhisteam/gallery/17-sm.webp", kind: 'makET', caption: "Эскиз декораций" },
+      { full: "images/performances/timurandhisteam/gallery/14.webp", thumb: "images/performances/timurandhisteam/gallery/14-sm.webp", kind: 'makET', caption: "Макет декораций" },
+      { full: "images/performances/timurandhisteam/gallery/15.webp", thumb: "images/performances/timurandhisteam/gallery/15-sm.webp", kind: 'makET', caption: "Макет декораций" },
+      { full: "images/performances/timurandhisteam/gallery/16.webp", thumb: "images/performances/timurandhisteam/gallery/16-sm.webp", kind: 'makET', caption: "Макет декораций" },
+      { full: "images/performances/timurandhisteam/gallery/17.webp", thumb: "images/performances/timurandhisteam/gallery/17-sm.webp", kind: 'makET', caption: "Макет декораций" },
     ]
   },
   warsawmelody: {

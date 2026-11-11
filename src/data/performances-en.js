@@ -82,7 +82,7 @@ export const performancesEn = {
   },
   thegoldenkey: {
     title: '"The Golden Key"',
-    author: 'A. N. Tolstoy',
+    author: 'A. K. Tolstoy',
     theater: 'Yekaterinburg Youth Theatre'
   },
   warsawmelody: {

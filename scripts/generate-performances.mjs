@@ -110,12 +110,13 @@ function paragraphs(list) {
 function text(slug, isEn, a, aEn, field) {
   const ru = a ? a[field] : null;
   const en = aEn ? aEn[field] : null;
-  if (!isEn || !aEn) return ru;
+  if (!isEn) return ru;
+  if (!aEn) return null;
   if (en == null || en === '' || (Array.isArray(en) && !en.length)) {
     if (ru && ru.length) {
-      console.warn('EN: нет перевода «' + field + '» у ' + slug + ' — показан русский оригинал');
+      console.warn('EN: нет перевода «' + field + '» у ' + slug + ' — поле оставлено без перевода');
     }
-    return ru;
+    return null;
   }
   if (Array.isArray(en) && Array.isArray(ru) && en.length !== ru.length) {
     console.warn('EN: «' + field + '» у ' + slug + ' — в переводе ' + en.length + ', в оригинале ' + ru.length);
@@ -138,7 +139,9 @@ function page(p, lang) {
   const pl = isEn ? PLACEHOLDER_EN : PLACEHOLDER_RU;
   const en = performancesEn[p.slug] || {};
   const title = isEn ? (en.title || p.title) : p.title;
-  const author = isEn ? (en.author != null && en.author !== '' ? en.author : (p.author || '')) : (p.author || '');
+  const author = isEn
+    ? (en.author != null && en.author !== '' ? en.author : (p.author || ''))
+    : ((performancesArchive[p.slug] || {}).author || p.author || '');
   const theater = isEn ? en.theater || p.theater : p.theater;
   const url = (isEn ? '/en' : '') + '/performances/' + p.slug + '/';
   const badgeLive = isEn ? 'On stage' : 'Идёт';
@@ -161,14 +164,17 @@ function page(p, lang) {
   // фотографий нет (16 спектаклей без архива) — показываем одну афишу.
   const photoLabel = isEn ? 'Production photograph' : 'Снимок спектакля';
   const sketchLabel = isEn ? 'Set design sketch' : 'Эскиз декораций';
+  const modelLabel = isEn ? 'Set model' : 'Макет декораций';
   const galleryItems = photos.length
     ? photos
         .map(function (ph) {
           const isSketch = ph.kind === 'makET';
           // Подпись в лайтбоксе — только когда она есть: у съёмок
           // постановки показывать нечего, пустая строка лишняя.
-          const caption = isSketch ? sketchLabel : (ph.caption || '');
-          const alt = (isSketch ? sketchLabel : photoLabel) + ' — ' + title;
+          const caption = isSketch
+            ? (ph.caption === 'Макет декораций' ? modelLabel : sketchLabel)
+            : (ph.caption || '');
+          const alt = (isSketch ? caption : photoLabel) + ' — ' + title;
           return (
             '<figure class="gallery__item">' +
             '<a class="gallery__link" href="' + withBase('/' + ph.full) + '" data-lightbox="' + p.slug + '" data-caption="' + esc(caption) + '">' +
@@ -200,10 +206,10 @@ function page(p, lang) {
   const awardsText = text(p.slug, isEn, a, aEn, 'awards') || [];
   const premiereText = text(p.slug, isEn, a, aEn, 'premiere');
   const cityText = text(p.slug, isEn, a, aEn, 'city');
+  const russianOnly = isEn && a && !aEn;
 
   const hasDescription = descText.length > 0;
-  // Пока перевода нет, русский текст на EN-странице показываем с пометкой и
-  // ссылкой на русскую версию — молча смешивать языки нельзя.
+  // Без перевода EN-страница не показывает русский текст, только ссылку на RU.
   const ruNote = isEn && a && !aEn
     ? '<p class="perf-page__lang-note">The director’s text and the production details are published in Russian. ' +
       '<a href="' + withBase('/performances/' + p.slug + '/') + '">Read in Russian</a></p>'
@@ -219,15 +225,21 @@ function page(p, lang) {
       '</div>'
     : '';
 
-  const description = hasDescription
+  const description = russianOnly
+    ? ''
+    : hasDescription
     ? '<div class="perf-page__desc">' + paragraphs(descText) + '</div>'
     : '<p class="perf-page__desc">' + esc(pl.description) + '</p>';
 
-  const team = teamText.length
+  const team = russianOnly
+    ? ''
+    : teamText.length
     ? teamList(teamText)
     : '<p class="perf-page__desc">' + pl.team + '</p>';
 
-  const press = a
+  const press = russianOnly
+    ? ''
+    : a
     ? (a.press.length
         ? linkList(
             a.press.map(function (it, i) {
@@ -252,7 +264,7 @@ function page(p, lang) {
 
   const premiere = a ? (premiereText || String(a.year)) : pl.premiere;
   const city = cityText ? esc(cityText) : '';
-  const awards = awardsText.length
+  const awards = !russianOnly && awardsText.length
     ? '<ul>' + awardsText.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>'
     : '';
 
@@ -313,25 +325,27 @@ const lead = hasDescription ? descText[0] : '';
 
     epigraph +
 
+    (russianOnly ? '' :
     '<div class="perf-page__section animate-on-scroll">' +
     '<h2 class="perf-page__section-title">' + o + '</h2>' +
     description +
-    '</div>' +
+    '</div>') +
 
     '<div class="perf-page__section animate-on-scroll">' +
     '<h2 class="perf-page__section-title">' + info + '</h2>' +
     '<div class="perf-page__specs">' +
     '<div class="perf-spec"><span class="perf-spec__label">' + pr + '</span><span class="perf-spec__value">' + esc(premiere) + '</span></div>' +
     (city ? '<div class="perf-spec"><span class="perf-spec__label">' + cityLabel + '</span><span class="perf-spec__value">' + city + '</span></div>' : '') +
-    '<div class="perf-spec"><span class="perf-spec__label">' + cr + '</span><div class="perf-spec__value">' + team + '</div></div>' +
+    (russianOnly ? '' : '<div class="perf-spec"><span class="perf-spec__label">' + cr + '</span><div class="perf-spec__value">' + team + '</div></div>') +
     (awards ? '<div class="perf-spec"><span class="perf-spec__label">' + aw + '</span><div class="perf-spec__value">' + awards + '</div></div>' : '') +
     '</div>' +
     '</div>' +
 
+    (russianOnly ? '' :
     '<div class="perf-page__section animate-on-scroll">' +
     '<h2 class="perf-page__section-title">' + prs + '</h2>' +
     '<div class="perf-spec__value">' + press + '</div>' +
-    '</div>' +
+    '</div>') +
 
     (p.hideVideos ? '' :
       '<div class="perf-page__section animate-on-scroll">' +

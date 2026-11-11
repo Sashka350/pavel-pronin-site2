@@ -12,22 +12,21 @@
  *   status  — 'live' (идёт в репертуаре) | 'archive' (архив)
  *   ticketUrl — страница театра с информацией о спектакле и билетах, если дана
  *   hideVideos — скрыть видеоссылку по просьбе режиссёра, пока спектакль идёт
- *   image   — обложка (афиша). У 11 спектаклей это локальные файлы из
+ *   image   — обложка (афиша). У 12 спектаклей это локальные файлы из
  *             `public/images/performances/<slug>/poster.webp`, собранные
  *             из архива заказчика скриптом `scripts/import-photos.py`.
- *             У остальных 17 пока ссылка со старого сайта — заменим, когда
- *             Паша пришлёт афиши. Путь задаём БЕЗ базового пути и без
+ *             У остальных 17 пока ссылка со старого сайта; афиши из актуальных
+ *             папок ещё предстоит сверить и перенести. Путь задаём БЕЗ базы и без
  *             ведущего слэша: BASE подставляет каталог (import.meta.env.BASE_URL),
  *             генератор страниц — withBase().
  *
  * Описания, эпиграфы, составы команды, прессу, видео и фотографии здесь
  * НЕ держат: тексты лежат в performances-archive.js, снимки постановки —
- * в performances-gallery.js (оба собраны из Материалы для сайта.zip),
+ * в performances-gallery.js (старые галереи собраны из Материалы для сайта.zip),
  * а страницы собирает scripts/generate-performances.mjs.
  *
- * ВАЖНО: документы найдены для 29 спектаклей; их перенос в реестр и тексты
- * выполняется пакетами. Статус live и ссылки на театр ставятся только по
- * прямым отметкам в документах режиссёра.
+ * ВАЖНО: документы найдены для 29 спектаклей; тексты внесены по ним. Статус
+ * live и ссылки на театр ставятся только по прямым отметкам в документах.
  */
 
 export const performances = [
@@ -87,7 +86,7 @@ export const performances = [
   {
     slug: 'kalleblomkvist',
     title: '«Калле Блюмквист — суперсыщик!»',
-    author: 'по произведениям А. Линдгрен',
+    author: 'П. Пронин по одноимённой повести А. Линдгрен',
     theater: '«Ведогонь-театр» (Зеленоград, Москва)',
     year: 2023,
     status: 'live',
@@ -158,7 +157,7 @@ export const performances = [
     title: '«Баба Яга против зла»',
     author: 'Ю. Бочарова',
     theater: 'Московский областной театр драмы и комедии',
-    year: 2022,
+    year: 2021,
     status: 'archive',
     image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1654958010838-G4TMYMWM8LFMQEMEMQDB/__.png'
   },
@@ -167,7 +166,7 @@ export const performances = [
     title: '«Женское счастье Бабы Яги»',
     author: 'Ю. Бочарова',
     theater: 'Московский областной театр драмы и комедии',
-    year: 2022,
+    year: 2021,
     status: 'archive',
     image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1654956619437-7FDCYC70UWARGMVTGZBF/__.png'
   },
@@ -194,9 +193,9 @@ export const performances = [
   {
     slug: 'thegoldenkey',
     title: '«Золотой ключик»',
-    author: 'А.Н. Толстой',
+    author: 'А. К. Толстой',
     theater: 'Екатеринбургский театр юного зрителя',
-    year: 2021,
+    year: 2020,
     status: 'archive',
     image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1623831351373-OC3MUVEIRAGKAQ32B303/the+golden+key.jpg'
   },
@@ -284,7 +283,7 @@ export const performances = [
   {
     slug: 'intheceilingthestarsareshining',
     title: '«Звёзды светят на потолке»',
-    author: 'Й. Тидель',
+    author: 'Павел Пронин по одноимённому роману Юханны Тидель',
     theater: 'Краснодарский Молодёжный театр',
     year: 2017,
     status: 'archive',
