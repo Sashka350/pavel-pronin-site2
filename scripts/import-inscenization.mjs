@@ -29,8 +29,11 @@ const OUT = join(root, 'src', 'data', 'inscenizations');
  * Границы разделов в каждом файле. Номера строк — после удаления шапки
  * (строки 1…DROP_HEAD), с нуля. castAt — строка «Действующие лица»
  * (castEnd — на −1, если списка нет), castEnd — первая строка текста.
- * Числа выверены по всем 11 файлам; для нового файла посмотрите начало
+ * Числа выверены по всем файлам; для нового файла посмотрите начало
  * текста в Word и поправьте.
+ *
+ * Обновлено 11.11.2026 по актуальным файлам из папки «Инсценировки» на
+ * Яндекс.Диске (11 обновлены, добавлены 5 новых).
  */
 const LAYOUT = {
   chroniclesofnarnia: { drop: 4, castAt: 0, castEnd: 15 },
@@ -38,12 +41,17 @@ const LAYOUT = {
   cynics: { drop: 3, castAt: 0, castEnd: 10 },
   timurandhisteam: { drop: 4, castAt: 4, castEnd: 15 },
   thegoldenkey: { drop: 5, castAt: 0, castEnd: 20 },
-  nutcracker: { drop: 4, castAt: 0, castEnd: 28 },
-  thethreefatmen: { drop: 3, castAt: 1, castEnd: 21 },
-  teenager: { drop: 3, castAt: 1, castEnd: 15 },
-  butterball: { drop: 3, castAt: 1, castEnd: 14 },
-  captainsdaughter: { drop: 6, castAt: -1, castEnd: 0 },
-  boywithasword: { drop: 2, castAt: 1, castEnd: 13 }
+  nutcracker: { drop: 4, castAt: 0, castEnd: 18 },
+  thethreefatmen: { drop: 4, castAt: 0, castEnd: 20 },
+  teenager: { drop: 4, castAt: 0, castEnd: 14 },
+  butterball: { drop: 4, castAt: 0, castEnd: 13 },
+  captainsdaughter: { drop: 6, castAt: 0, castEnd: 24 },
+  boywithasword: { drop: 3, castAt: 0, castEnd: 13 },
+  magicnut: { drop: 3, castAt: 0, castEnd: 10 },
+  dedmoroz: { drop: 4, castAt: 0, castEnd: 8 },
+  starfall: { drop: 6, castAt: 0, castEnd: 18 },
+  starboy: { drop: 4, castAt: 0, castEnd: 9 },
+  kalleblomkvist: { drop: 5, castAt: 0, castEnd: 14 }
 };
 
 /**

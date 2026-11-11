@@ -15,5 +15,10 @@ export const inscenizationsEn = [
   { slug: 'teenager', title: '"The Adolescent"', author: 'after F. M. Dostoevsky' },
   { slug: 'butterball', title: '"Boule de Suif"', author: 'after Guy de Maupassant' },
   { slug: 'captainsdaughter', title: '"The Captain\'s Daughter"', author: 'after A. S. Pushkin' },
-  { slug: 'boywithasword', title: '"The Boy with a Sword"', author: 'after V. P. Krapivin' }
+  { slug: 'boywithasword', title: '"The Boy with a Sword"', author: 'after V. P. Krapivin' },
+  { slug: 'magicnut', title: '"The Magic Nut. The Story of the Nutcracker"', author: 'after E. T. A. Hoffmann' },
+  { slug: 'dedmoroz', title: '"Father Frost"', author: 'after Russian folk tales' },
+  { slug: 'starfall', title: '"Starfall"', author: 'after V. P. Astafyev' },
+  { slug: 'starboy', title: '"The Star Boy"', author: 'after O. Wilde' },
+  { slug: 'kalleblomkvist', title: '"Kalle Blomkvist — Detective!"', author: 'after A. Lindgren' }
 ];

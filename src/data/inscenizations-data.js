@@ -14,7 +14,7 @@
  */
 export const inscenizations = [
   { slug: 'chroniclesofnarnia', title: '«Хроники Нарнии. Племянник чародея»', author: 'по К.С. Льюису' },
-  { slug: 'intheceilingthestarsareshining', title: '«Звёзды светят на потолке»', author: 'по Й. Тидель' },
+  { slug: 'intheceilingthestarsareshining', title: '«Звёзды светят на потолке»', author: 'по Ю. Тидль' },
   { slug: 'cynics', title: '«Циники»', author: 'по А. Мариенгофу' },
   { slug: 'timurandhisteam', title: '«Тимур и его команда»', author: 'по А.П. Гайдару' },
   { slug: 'thegoldenkey', title: '«Золотой ключик»', author: 'по А.Н. Толстому' },
@@ -23,5 +23,10 @@ export const inscenizations = [
   { slug: 'teenager', title: '«Подросток»', author: 'по Ф.М. Достоевскому' },
   { slug: 'butterball', title: '«Пышка»', author: 'по Ги де Мопассану' },
   { slug: 'captainsdaughter', title: '«Капитанская дочка»', author: 'по А.С. Пушкину' },
-  { slug: 'boywithasword', title: '«Мальчик со шпагой»', author: 'по В.П. Крапивину' }
+  { slug: 'boywithasword', title: '«Мальчик со шпагой»', author: 'по В.П. Крапивину' },
+  { slug: 'magicnut', title: '«Волшебный орех. История Щелкунчика»', author: 'по Э.Т.А. Гофману' },
+  { slug: 'dedmoroz', title: '«Дед Мороз»', author: 'по мотивам русских сказок' },
+  { slug: 'starfall', title: '«Звездопад»', author: 'по В.П. Астафьеву' },
+  { slug: 'starboy', title: '«Звёздный мальчик»', author: 'по О. Уайльду' },
+  { slug: 'kalleblomkvist', title: '«Калле Блюмквист — сыщик!»', author: 'по А. Линдгрен' }
 ];
