@@ -40,6 +40,7 @@ export const performances = [
     year: 2026,
     status: 'live',
     ticketUrl: 'https://et-cetera.ru/performance/pyat-lozhek-eliksira/',
+    hideVideos: true,
     image: 'images/performances/fivespoonsofelixir/poster.webp'
   },
   {

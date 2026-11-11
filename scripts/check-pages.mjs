@@ -512,7 +512,11 @@ async function checkSitemapAndRobots(allPages) {
     if (seen.has(loc)) report('seo', '/sitemap.xml', 'адрес повторяется дважды: ' + loc);
     seen.add(loc);
   }
+  // Страницы, которым не положено быть в sitemap: скрытые страницы эскизов
+  // (noindex, доступны только по прямой ссылке — см. generate-sketches.mjs).
+  const SITEMAP_EXCLUDED = /^\/sketches\//;
   for (const page of allPages) {
+    if (SITEMAP_EXCLUDED.test(page)) continue;
     if (!seen.has(norm(page))) report('seo', page, 'страницы нет в sitemap.xml');
   }
   for (const loc of seen) {
