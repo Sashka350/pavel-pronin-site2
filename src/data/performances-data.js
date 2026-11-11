@@ -12,13 +12,15 @@
  *   status  — 'live' (идёт в репертуаре) | 'archive' (архив)
  *   ticketUrl — страница театра с информацией о спектакле и билетах, если дана
  *   hideVideos — скрыть видеоссылку по просьбе режиссёра, пока спектакль идёт
- *   image   — обложка (афиша). У 12 спектаклей это локальные файлы из
- *             `public/images/performances/<slug>/poster.webp`, собранные
- *             из архива заказчика скриптом `scripts/import-photos.py`.
- *             У остальных 17 пока ссылка со старого сайта; афиши из актуальных
- *             папок ещё предстоит сверить и перенести. Путь задаём БЕЗ базы и без
- *             ведущего слэша: BASE подставляет каталог (import.meta.env.BASE_URL),
- *             генератор страниц — withBase().
+ *   image   — обложка (афиша). У 28 спектаклей это локальные файлы из
+ *             `public/images/performances/<slug>/poster.webp` (афиши из
+ *             актуальной папки «Материалы для сайта» на Яндекс.Диске,
+ *             пережаты 11.11.2026). У `starboy` и `retrohbk` пока ссылка со
+ *             старого сайта: у Звёздного мальчика афиши нет, у Ретро
+ *             (Хабаровск) в папке лежит скриншот из Instagram — ждём файл
+ *             от Павла. Путь задаём БЕЗ базы и без ведущего слэша: BASE
+ *             подставляет каталог (import.meta.env.BASE_URL), генератор
+ *             страниц — withBase().
  *
  * Описания, эпиграфы, составы команды, прессу, видео и фотографии здесь
  * НЕ держат: тексты лежат в performances-archive.js, снимки постановки —
@@ -38,7 +40,7 @@ export const performances = [
     year: 2026,
     status: 'live',
     ticketUrl: 'https://et-cetera.ru/performance/pyat-lozhek-eliksira/',
-    image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/5f5667b5-350e-447c-a31b-f86c27bd3c85/5278352199782176823.jpg'
+    image: 'images/performances/fivespoonsofelixir/poster.webp'
   },
   {
     slug: 'magicnutnutcracker',
@@ -49,7 +51,7 @@ export const performances = [
     status: 'live',
     ticketUrl: 'https://xn--e1aasoib4f.xn--p1ai/repertuar--1/volshebny-orekh-istoriya-shchelkunchika',
     hideVideos: true,
-    image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/b3b36fab-1b4d-480a-8de9-ce30dc9dc213/5208501660588641183.jpg'
+    image: 'images/performances/magicnutnutcracker/poster.webp'
   },
   {
     slug: 'remember',
@@ -60,7 +62,7 @@ export const performances = [
     status: 'live',
     ticketUrl: 'https://kmto-premiera.ru/molodezhnyy-teatr/afisha/16579/',
     hideVideos: true,
-    image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/b63bb167-e608-4ab8-ab37-c987a9145e8b/jRASGjgZyK2ICl-6P1fKvo1IoMQ-mXdTxtGcwTR960BJjHcqFBp-mGBp4z9cY5uJgNtHpJavxZu4ZHG5MPEBy3f1.jpg'
+    image: 'images/performances/remember/poster.webp'
   },
   {
     slug: 'sorrowfromthemind',
@@ -71,7 +73,7 @@ export const performances = [
     status: 'live',
     ticketUrl: 'https://kmto-premiera.ru/molodezhnyy-teatr/afisha/16023/',
     hideVideos: true,
-    image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1738589675448-7FX31ZQC9RCUFU3TCQS5/5226898848054634031.jpg'
+    image: 'images/performances/sorrowfromthemind/poster.webp'
   },
   {
     slug: 'retrohbk',
@@ -92,7 +94,7 @@ export const performances = [
     status: 'live',
     ticketUrl: 'https://vedogon.ru/kalle#!/tab/645426278-1',
     hideVideos: true,
-    image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1701334450754-LBHDHQK003G3KX90T9ZR/photo1695841803.jpeg'
+    image: 'images/performances/kalleblomkvist/poster.webp'
   },
   {
     slug: 'dedmoroz',
@@ -112,7 +114,7 @@ export const performances = [
     theater: 'Русский драматический театр Башкортостана, г. Уфа',
     year: 2023,
     status: 'archive',
-    image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1699192798098-QYQDSZI8NJGXX1V6V8UN/Poster.jpg'
+    image: 'images/performances/starfall/poster.webp'
   },
   {
     slug: 'scarletsails',
@@ -123,7 +125,18 @@ export const performances = [
     status: 'live',
     ticketUrl: 'https://www.achdt.ru/?page_id=17861',
     hideVideos: true,
-    image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1680622373809-SY2LO8DIQCYEV8PCI32N/Scarlet+Sails.jpg'
+    image: 'images/performances/scarletsails/poster.webp'
+  },
+  {
+    slug: 'princessturandot',
+    title: '«Принцесса Турандот»',
+    author: 'Карло Гоцци',
+    theater: 'Национальный драматический театр им. Б. Басангова',
+    year: 2026,
+    status: 'live',
+    ticketUrl: 'https://quicktickets.ru/elista-teatr-basangova/e94',
+    hideVideos: true,
+    image: 'images/performances/princessturandot/poster.webp'
   },
   {
     slug: 'babytimetalkshow',
@@ -132,7 +145,7 @@ export const performances = [
     theater: 'Проект «Открытая репетиция» Московского театра на Таганке',
     year: 2022,
     status: 'archive',
-    image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1659444765026-TU1PICDV6XBRS02IPL0X/photo1659007695.jpeg'
+    image: 'images/performances/babytimetalkshow/poster.webp'
   },
   {
     slug: 'thethreefatmen',
@@ -141,7 +154,7 @@ export const performances = [
     theater: 'Молодёжный Театр Алтая',
     year: 2022,
     status: 'archive',
-    image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1654959881420-AAGLAJBGIQQVAJ9MJXSU/IMG_9425.JPG'
+    image: 'images/performances/thethreefatmen/poster.webp'
   },
   {
     slug: 'theatrehistory',
@@ -150,7 +163,7 @@ export const performances = [
     theater: 'Московский областной театр драмы и комедии',
     year: 2022,
     status: 'archive',
-    image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1654958636968-ODQKH4MAXMUB1XHCJHEA/1HmVogYw-LGAScqC5ledAh9mPaJape6vHddEloRMB_7zdPIRh8CHSteyvPU9C5DmI02blG6vN4TxwKwmjL2iHfOg.jpg'
+    image: 'images/performances/theatrehistory/poster.webp'
   },
   {
     slug: 'babayagakids',
@@ -159,7 +172,7 @@ export const performances = [
     theater: 'Московский областной театр драмы и комедии',
     year: 2021,
     status: 'archive',
-    image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1654958010838-G4TMYMWM8LFMQEMEMQDB/__.png'
+    image: 'images/performances/babayagakids/poster.webp'
   },
   {
     slug: 'babayagawoment',
@@ -168,7 +181,7 @@ export const performances = [
     theater: 'Московский областной театр драмы и комедии',
     year: 2021,
     status: 'archive',
-    image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1654956619437-7FDCYC70UWARGMVTGZBF/__.png'
+    image: 'images/performances/babayagawoment/poster.webp'
   },
   {
     slug: 'thewizardoftheemeraldcity',
@@ -177,7 +190,7 @@ export const performances = [
     theater: 'Екатеринбургский ТЮЗ',
     year: 2021,
     status: 'archive',
-    image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1623926255822-U82NCGE2UIOYJECDA2F0/The+Wiazrd+of+the+Emerald+City.jpg'
+    image: 'images/performances/thewizardoftheemeraldcity/poster.webp'
   },
   {
     slug: 'retro',
@@ -188,7 +201,7 @@ export const performances = [
     status: 'live',
     ticketUrl: 'https://xn--g1av0b.xn--80acgfbsl1azdqr.xn--p1ai/performances/item/188',
     hideVideos: true,
-    image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1623913933240-A4EKJVCSK4HZ2ZNU2AJ0/Retro+poster.jpg'
+    image: 'images/performances/retro/poster.webp'
   },
   {
     slug: 'thegoldenkey',
@@ -197,7 +210,7 @@ export const performances = [
     theater: 'Екатеринбургский театр юного зрителя',
     year: 2020,
     status: 'archive',
-    image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1623831351373-OC3MUVEIRAGKAQ32B303/the+golden+key.jpg'
+    image: 'images/performances/thegoldenkey/poster.webp'
   },
   {
     slug: 'warsawmelody',
