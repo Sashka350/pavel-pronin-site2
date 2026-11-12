@@ -84,7 +84,7 @@ export const performances = [
     year: 2024,
     status: 'live',
     ticketUrl: 'https://tuz-xa.ru/repertoire/retro',
-    image: 'https://images.squarespace-cdn.com/content/v1/60bdb86ed3018332f3c6113e/1729333761186-NDKUNR0782UC9AYCXVPR/5242509310418869387.jpg'
+    image: 'images/performances/retrohbk/poster.webp'
   },
   {
     slug: 'kalleblomkvist',
