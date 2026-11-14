@@ -136,6 +136,7 @@ export function head(opts) {
     '<meta name="description" content="' + esc(opts.description) + '" />' +
     (opts.robots ? '<meta name="robots" content="' + esc(opts.robots) + '" />' : '') +
     '<meta name="theme-color" content="#0C0C0C" />' +
+    '<meta name="google-site-verification" content="7VfPRqX_wm47Ov_gJk5N3vPT7AnqQiKP3SUKMXd3m3c" />' +
     '<link rel="canonical" href="' + SITE + opts.canonical + '" />' +
     '<meta property="og:type" content="' + (opts.ogType || 'website') + '" />' +
     '<meta property="og:title" content="' + esc(opts.title) + '" />' +
