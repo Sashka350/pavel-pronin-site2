@@ -1,0 +1,10 @@
+# pavelpronin.art — редиректы и обработка ошибок
+
+# www -> без www и http -> https (301, чтобы не плодить зеркала-дубли)
+RewriteEngine On
+RewriteCond %{HTTPS} off [OR]
+RewriteCond %{HTTP_HOST} ^www\.pavelpronin\.art$ [NC]
+RewriteRule ^(.*)$ https://pavelpronin.art/$1 [L,R=301]
+
+# своя страница 404
+ErrorDocument 404 /404.html
