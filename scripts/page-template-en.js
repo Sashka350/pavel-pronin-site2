@@ -166,7 +166,8 @@ export function head(opts) {
     '<link rel="preconnect" href="https://fonts.googleapis.com" />' +
     '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />' +
     '<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet" />' +
-    '<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Crect width=\'100\' height=\'100\' rx=\'12\' fill=\'%230C0C0C\'/%3E%3Ctext x=\'50\' y=\'68\' font-size=\'56\' font-family=\'Arial\' font-weight=\'bold\' fill=\'%23D4A843\' text-anchor=\'middle\'%3EP%3C/text%3E%3C/svg%3E" />' +
+    '<link rel="icon" type="image/png" sizes="48x48" href="' + withBase('favicon-48.png') + '" />' +
+    '<link rel="icon" type="image/png" sizes="96x96" href="' + withBase('favicon-96.png') + '" />' +
     (opts.jsonld ? '<script type="application/ld+json">' + JSON.stringify(opts.jsonld) + '</script>' : '')
   );
 }
